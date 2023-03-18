@@ -27,6 +27,9 @@
                                 <rect key="frame" x="70" y="778" width="274" height="54"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Button"/>
+                                <connections>
+                                    <action selector="getStartedButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3XW-oc-Ad2"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k08-1c-lcX">
                                 <rect key="frame" x="50" y="353" width="314" height="20.5"/>
@@ -73,6 +76,13 @@
                             <constraint firstItem="vVD-KU-dqn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zja-OV-Vus"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="firstDefinitionLabel" destination="k08-1c-lcX" id="J5M-cO-EJC"/>
+                        <outlet property="getStartedButton" destination="pHA-Xe-VjB" id="epc-h1-qmg"/>
+                        <outlet property="onboardingImage" destination="00R-oK-Gcw" id="3Im-o2-JVD"/>
+                        <outlet property="secondDefinitionLabel" destination="vVD-KU-dqn" id="68N-zf-vPI"/>
+                        <outlet property="thirdDefinitionLabel" destination="F9K-AT-wac" id="8uF-5Q-BhX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
