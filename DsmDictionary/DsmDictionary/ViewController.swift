@@ -25,9 +25,34 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        configurationView()
+    }
+    
+    
+    func configurationView(){
+        
+        // MARK: - Constants
+        
+        
+        // MARK: - Labels Configuration
+        firstDefinitionLabel.text  = "Definition-1"
+        secondDefinitionLabel.text = "Definition-2"
+        thirdDefinitionLabel.text  = "Definition-3"
+        
+        // MARK: - Button configuration
+        getStartedButton.setTitle("Button Title", for: .normal)
+        
+        
+        // MARK: - ImageView configuration
+        onboardingImage.image = UIImage(named: "Onboarding")
+        
+        
     }
 
     @IBAction func getStartedButton(_ sender: Any) {
+        
+        
+        
     }
     
 }
