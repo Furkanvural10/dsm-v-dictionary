@@ -24,8 +24,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         configurationView()
+        startAnimation()
+        
     }
     
     
@@ -53,6 +54,52 @@ class ViewController: UIViewController {
         
         
         
+    }
+    
+    func startAnimation(){
+        
+        // MARK: - Constant
+        let duration = 1.5
+        let delay: TimeInterval = 0
+        let option = UIView.AnimationOptions.curveEaseOut
+        
+        
+        
+        onboardingImage.alpha = 0
+        firstDefinitionLabel.alpha = 0
+        secondDefinitionLabel.alpha = 0
+        thirdDefinitionLabel.alpha = 0
+        getStartedButton.alpha = 0
+        
+        
+        UIView.animate(withDuration: duration, delay: delay, options: option) {
+            // Showing Image
+            self.onboardingImage.alpha = 1
+        } completion: { _ in
+            UIView.animate(withDuration: duration, delay: delay, options: option) {
+                // Showing first definition
+                self.firstDefinitionLabel.alpha = 1
+            } completion: { _ in
+                UIView.animate(withDuration: duration, delay: delay, options: option) {
+                    self.secondDefinitionLabel.alpha = 1
+                } completion: { _ in
+                    UIView.animate(withDuration: duration, delay: delay, options: option) {
+                        self.thirdDefinitionLabel.alpha = 1
+                    } completion: { _ in
+                        UIView.animate(withDuration: duration, delay: delay, options: option) {
+                            self.getStartedButton.alpha = 1
+                        } completion: { _ in
+                            // Go to Searching Page
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
     }
     
 }
