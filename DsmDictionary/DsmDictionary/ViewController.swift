@@ -51,7 +51,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func getStartedButton(_ sender: Any) {
-        
+        endOnboardingPage()
         
         
     }
@@ -62,9 +62,7 @@ class ViewController: UIViewController {
         let duration = 1.5
         let delay: TimeInterval = 0
         let option = UIView.AnimationOptions.curveEaseOut
-        
-        
-        
+         
         onboardingImage.alpha = 0
         firstDefinitionLabel.alpha = 0
         secondDefinitionLabel.alpha = 0
@@ -88,6 +86,45 @@ class ViewController: UIViewController {
                     } completion: { _ in
                         UIView.animate(withDuration: duration, delay: delay, options: option) {
                             self.getStartedButton.alpha = 1
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+    
+    func endOnboardingPage(){
+        
+        // MARK: - Constant
+        let duration = 2.0
+        let delay: TimeInterval = 0
+        let option = UIView.AnimationOptions.curveEaseOut
+        let translationX: CGFloat = 500
+        let translationY: CGFloat = 0
+         
+        
+        
+        UIView.animate(withDuration: duration, delay: delay, options: option) {
+            // Showing Image
+            self.onboardingImage.transform = CGAffineTransform(translationX: translationX, y: translationY)
+        } completion: { _ in
+            UIView.animate(withDuration: duration, delay: delay) {
+                // Showing first definition
+                self.firstDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
+            } completion: { _ in
+                UIView.animate(withDuration: duration, delay: delay) {
+                    self.secondDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
+                } completion: { _ in
+                    UIView.animate(withDuration: duration, delay: delay) {
+                        
+                        self.thirdDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
+                    } completion: { _ in
+                        UIView.animate(withDuration: duration, delay: delay, options: option) {
+                            self.getStartedButton.transform = CGAffineTransform(translationX: translationX, y: translationY)
                         } completion: { _ in
                             // Go to Searching Page
                         }
@@ -99,7 +136,7 @@ class ViewController: UIViewController {
             }
 
         }
-
+        
     }
     
 }
