@@ -116,7 +116,7 @@ class ViewController: UIViewController {
                             self.getStartedButton.transform = CGAffineTransform(translationX: translationX, y: translationY)
                             self.getStartedButton.alpha = 0
                         } completion: { _ in
-                            // Go to Searching Page
+                            self.performSegue(withIdentifier: "toSearchPageVC", sender: nil)
                         }
 
                     }
