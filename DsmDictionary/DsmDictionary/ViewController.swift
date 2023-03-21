@@ -9,18 +9,11 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    
     @IBOutlet weak var onboardingImage: UIImageView!
-    
     @IBOutlet weak var firstDefinitionLabel: UILabel!
-    
     @IBOutlet weak var secondDefinitionLabel: UILabel!
-    
     @IBOutlet weak var thirdDefinitionLabel: UILabel!
-    
     @IBOutlet weak var getStartedButton: UIButton!
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,11 +22,7 @@ class ViewController: UIViewController {
         
     }
     
-    
     func configurationView(){
-        
-        // MARK: - Constants
-        
         
         // MARK: - Labels Configuration
         firstDefinitionLabel.text  = "Definition-1"
@@ -41,20 +30,17 @@ class ViewController: UIViewController {
         thirdDefinitionLabel.text  = "Definition-3"
         
         // MARK: - Button configuration
-        getStartedButton.setTitle("Button Title", for: .normal)
-        
+        let buttonTitle = "Başla"
+        getStartedButton.setTitle(buttonTitle, for: .normal)
+        getStartedButton.tintColor = .black
         
         // MARK: - ImageView configuration
         onboardingImage.image = UIImage(named: "Onboarding")
-        
-        
+        onboardingImage.contentMode = .scaleAspectFit
+        onboardingImage.clipsToBounds = true
     }
 
-    @IBAction func getStartedButton(_ sender: Any) {
-        endOnboardingPage()
-        
-        
-    }
+    @IBAction func getStartedButton(_ sender: Any) { endOnboardingPage() }
     
     func startAnimation(){
         
@@ -100,7 +86,8 @@ class ViewController: UIViewController {
     func endOnboardingPage(){
         
         // MARK: - Constant
-        let duration = 2.0
+        let duration = 0.8
+        let buttonDuration = 1.5
         let delay: TimeInterval = 0
         let option = UIView.AnimationOptions.curveEaseOut
         let translationX: CGFloat = 500
@@ -109,22 +96,25 @@ class ViewController: UIViewController {
         
         
         UIView.animate(withDuration: duration, delay: delay, options: option) {
-            // Showing Image
-            self.onboardingImage.transform = CGAffineTransform(translationX: translationX, y: translationY)
+            // Nonvisible imageView
+            self.onboardingImage.alpha = 0
         } completion: { _ in
             UIView.animate(withDuration: duration, delay: delay) {
-                // Showing first definition
+                // Disappear first definition
                 self.firstDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
             } completion: { _ in
                 UIView.animate(withDuration: duration, delay: delay) {
+                    // Disappear second definition
                     self.secondDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
                 } completion: { _ in
                     UIView.animate(withDuration: duration, delay: delay) {
-                        
+                        // Disappear third definition
                         self.thirdDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
                     } completion: { _ in
-                        UIView.animate(withDuration: duration, delay: delay, options: option) {
+                        // Disappear getStartedbutton
+                        UIView.animate(withDuration: buttonDuration, delay: delay, options: option) {
                             self.getStartedButton.transform = CGAffineTransform(translationX: translationX, y: translationY)
+                            self.getStartedButton.alpha = 0
                         } completion: { _ in
                             // Go to Searching Page
                         }
