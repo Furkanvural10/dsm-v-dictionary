@@ -19,7 +19,15 @@ class SearchPageVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         super.viewDidLoad()
         configureSearchPageView()
         
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(gestureRecognizer)
         
+    }
+    
+    
+    
+     @objc private func hideKeyboard(){
+        self.view.endEditing(true)
     }
     
     private func configureSearchPageView(){
@@ -50,7 +58,6 @@ class SearchPageVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         // Search Bar
         self.searchBar.delegate = self
         self.searchBar.placeholder = "Ara"
-        self.searchBar.isTranslucent = true
 
     }
     
@@ -66,11 +73,9 @@ class SearchPageVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         return 5
     }
     
-    
-    
-    //    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    //        let title = "Sonuçlar"
-    //        return title
-    //    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+            let title = "Geçmiş"
+            return title
+    }
     
 }
