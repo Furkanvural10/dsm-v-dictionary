@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchPageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class SearchPageVC: UIViewController {
     
     @IBOutlet weak var dailyImageView: UIImageView!
     @IBOutlet weak var wordLabel: UILabel!
@@ -15,16 +15,20 @@ class SearchPageVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
+    var clickedSearchBar = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchPageView()
-        
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        view.addGestureRecognizer(gestureRecognizer)
+        createGestureRecognizer()
+
         
     }
     
-    
+    func createGestureRecognizer(){
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(gestureRecognizer)
+    }
     
      @objc private func hideKeyboard(){
         self.view.endEditing(true)
@@ -41,6 +45,7 @@ class SearchPageVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         // MARK: - Delegate
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.tableView.separatorStyle = .none
         
         // MARK: - Labels
         self.wordLabel.text = "Günün Kelimesi"
@@ -59,8 +64,12 @@ class SearchPageVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         self.searchBar.delegate = self
         self.searchBar.placeholder = "Ara"
         self.searchBar.spellCheckingType = .no
+        self.searchBar.searchBarStyle = .minimal
 
     }
+}
+
+extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
@@ -77,6 +86,23 @@ class SearchPageVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
             let title = "Geçmiş"
             return title
+    }
+    
+}
+
+extension SearchPageVC: UISearchBarDelegate {
+
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        // MARK: - Cancel searching
+
+        return true
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        // MARK: - Go To Detail Search Page
+        performSegue(withIdentifier: "toDetailSearchVC", sender: nil)
+        return true
     }
     
 }
