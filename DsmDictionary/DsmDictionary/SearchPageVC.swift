@@ -58,6 +58,7 @@ class SearchPageVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         // Search Bar
         self.searchBar.delegate = self
         self.searchBar.placeholder = "Ara"
+        self.searchBar.spellCheckingType = .no
 
     }
     
