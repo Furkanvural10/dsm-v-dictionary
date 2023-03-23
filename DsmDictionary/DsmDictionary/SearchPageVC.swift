@@ -53,7 +53,7 @@ class SearchPageVC: UIViewController {
             self.tableView.reloadData()
             
         } catch  {
-            print("Error")
+            Alert.showCoreDataError(on: self)
         }
     }
     
