@@ -15,6 +15,7 @@
 		047EC41329C654C1009EA1D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 047EC41129C654C1009EA1D9 /* LaunchScreen.storyboard */; };
 		047EC41B29C9D9FF009EA1D9 /* SearchPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC41A29C9D9FF009EA1D9 /* SearchPageVC.swift */; };
 		047EC41D29CBA488009EA1D9 /* DetailSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC41C29CBA488009EA1D9 /* DetailSearchVC.swift */; };
+		047EC44329CC7B95009EA1D9 /* Dictionary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 047EC44129CC7B95009EA1D9 /* Dictionary.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		047EC41429C654C1009EA1D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		047EC41A29C9D9FF009EA1D9 /* SearchPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPageVC.swift; sourceTree = "<group>"; };
 		047EC41C29CBA488009EA1D9 /* DetailSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSearchVC.swift; sourceTree = "<group>"; };
+		047EC44229CC7B95009EA1D9 /* Dictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dictionary.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				047EC40F29C654C1009EA1D9 /* Assets.xcassets */,
 				047EC41129C654C1009EA1D9 /* LaunchScreen.storyboard */,
 				047EC41429C654C1009EA1D9 /* Info.plist */,
+				047EC44129CC7B95009EA1D9 /* Dictionary.xcdatamodeld */,
 			);
 			path = DsmDictionary;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 				047EC41D29CBA488009EA1D9 /* DetailSearchVC.swift in Sources */,
 				047EC40B29C654C0009EA1D9 /* ViewController.swift in Sources */,
 				047EC41B29C9D9FF009EA1D9 /* SearchPageVC.swift in Sources */,
+				047EC44329CC7B95009EA1D9 /* Dictionary.xcdatamodeld in Sources */,
 				047EC40729C654C0009EA1D9 /* AppDelegate.swift in Sources */,
 				047EC40929C654C0009EA1D9 /* SceneDelegate.swift in Sources */,
 			);
@@ -368,6 +372,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		047EC44129CC7B95009EA1D9 /* Dictionary.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				047EC44229CC7B95009EA1D9 /* Dictionary.xcdatamodel */,
+			);
+			currentVersion = 047EC44229CC7B95009EA1D9 /* Dictionary.xcdatamodel */;
+			path = Dictionary.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 047EC3FB29C654C0009EA1D9 /* Project object */;
 }
