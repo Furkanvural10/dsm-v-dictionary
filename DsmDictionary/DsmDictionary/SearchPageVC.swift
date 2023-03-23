@@ -96,7 +96,7 @@ class SearchPageVC: UIViewController {
         self.searchBar.delegate = self
         self.searchBar.placeholder = "Ara"
         self.searchBar.spellCheckingType = .no
-        self.searchBar.searchBarStyle = .minimal
+//        self.searchBar.searchBarStyle = .minimal
 
     }
 }
@@ -116,7 +116,7 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-            let title = "Geçmiş"
+            let title = "En Son Arananlar"
             return title
     }
     

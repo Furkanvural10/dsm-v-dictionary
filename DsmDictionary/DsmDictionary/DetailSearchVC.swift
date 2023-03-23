@@ -15,7 +15,19 @@ class DetailSearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDetailSearchPageView()
+        createGestureRecognizer()
     }
+    
+    private func createGestureRecognizer(){
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        view.addGestureRecognizer(gestureRecognizer)
+    }
+    
+     @objc private func hideKeyboard(){
+        self.view.endEditing(true)
+    }
+    
+    
     func configureDetailSearchPageView(){
         // Open keyboard
         searchBar.becomeFirstResponder()
