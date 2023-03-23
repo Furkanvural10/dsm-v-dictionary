@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class SearchPageVC: UIViewController {
     
@@ -16,16 +17,47 @@ class SearchPageVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var clickedSearchBar = false
+    var wordIDList = [UUID]()
+    var wordList = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchPageView()
         createGestureRecognizer()
+        getLastSearchWord()
 
         
     }
     
-    func createGestureRecognizer(){
+    private func getLastSearchWord(){
+        
+        wordList.removeAll(keepingCapacity: false)
+        wordList.removeAll(keepingCapacity: false)
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let lastSearchWord = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            for i in result as! [NSManagedObject]{
+                if let word = i.value(forKey: "word") as? String {
+                    self.wordList.append(word)
+                }
+                if let id = i.value(forKey: "id") as? UUID {
+                    self.wordIDList.append(id)
+                }
+            }
+            self.tableView.reloadData()
+            
+        } catch  {
+            print("Error")
+        }
+    }
+    
+    private func createGestureRecognizer(){
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(gestureRecognizer)
     }
@@ -74,13 +106,13 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         var content = cell.defaultContentConfiguration()
-        content.text = "Aranan Kelime"
+        content.text = self.wordList[indexPath.row]
         cell.contentConfiguration = content
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return wordIDList.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

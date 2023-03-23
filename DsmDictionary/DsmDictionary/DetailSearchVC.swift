@@ -15,10 +15,7 @@ class DetailSearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDetailSearchPageView()
-        
-    
     }
-    
     func configureDetailSearchPageView(){
         // Open keyboard
         searchBar.becomeFirstResponder()
@@ -32,9 +29,6 @@ class DetailSearchVC: UIViewController {
         self.searchBar.searchBarStyle = .minimal
     }
     
-
-    
-
 }
 
 extension DetailSearchVC: UISearchBarDelegate {
