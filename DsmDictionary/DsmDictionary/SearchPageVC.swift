@@ -120,6 +120,14 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
             return title
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteSwipe = UIContextualAction(style: .destructive, title: "Sil") { action, view, boolValue in
+            print("Silme işlemi")
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteSwipe])
+    }
+    
 }
 
 extension SearchPageVC: UISearchBarDelegate {
