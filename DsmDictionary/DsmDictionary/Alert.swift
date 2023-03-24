@@ -22,4 +22,8 @@ struct Alert {
     static func showCoreDataError(on vc: UIViewController){
         showBasicAlert(on: vc, with: "Hata", message: "Veriler getirilirken bir hata oluştu. Bir süre sonra tekrar deneyiniz")
     }
+    
+    static func showFirebaseSignInError(on vc: UIViewController, message: String){
+        showBasicAlert(on: vc, with: "Hata", message: message)
+    }
 }

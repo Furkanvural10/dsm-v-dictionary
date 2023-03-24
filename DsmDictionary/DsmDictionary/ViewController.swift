@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ViewController: UIViewController {
     
@@ -19,7 +20,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         configurationView()
         startAnimation()
+        createUser()
         
+    }
+    
+    private func createUser(){
+        
+        Auth.auth().signInAnonymously { data, error in
+            if error != nil {
+                Alert.showFirebaseSignInError(on: self, message: error!.localizedDescription)
+            }else{
+                print("*********** KULLANICI \(data!.user.uid)")
+            }
+        }
     }
     
     func configurationView(){
