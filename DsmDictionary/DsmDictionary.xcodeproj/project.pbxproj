@@ -17,6 +17,7 @@
 		047EC41D29CBA488009EA1D9 /* DetailSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC41C29CBA488009EA1D9 /* DetailSearchVC.swift */; };
 		047EC44329CC7B95009EA1D9 /* Dictionary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 047EC44129CC7B95009EA1D9 /* Dictionary.xcdatamodeld */; };
 		047EC44529CCD582009EA1D9 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC44429CCD582009EA1D9 /* Alert.swift */; };
+		047EC44729CDDDB8009EA1D9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 047EC44629CDDDB8009EA1D9 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		047EC41C29CBA488009EA1D9 /* DetailSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSearchVC.swift; sourceTree = "<group>"; };
 		047EC44229CC7B95009EA1D9 /* Dictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dictionary.xcdatamodel; sourceTree = "<group>"; };
 		047EC44429CCD582009EA1D9 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		047EC44629CDDDB8009EA1D9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,12 +71,13 @@
 				047EC40A29C654C0009EA1D9 /* ViewController.swift */,
 				047EC41A29C9D9FF009EA1D9 /* SearchPageVC.swift */,
 				047EC41C29CBA488009EA1D9 /* DetailSearchVC.swift */,
+				047EC44429CCD582009EA1D9 /* Alert.swift */,
 				047EC40C29C654C0009EA1D9 /* Main.storyboard */,
 				047EC40F29C654C1009EA1D9 /* Assets.xcassets */,
 				047EC41129C654C1009EA1D9 /* LaunchScreen.storyboard */,
 				047EC41429C654C1009EA1D9 /* Info.plist */,
+				047EC44629CDDDB8009EA1D9 /* GoogleService-Info.plist */,
 				047EC44129CC7B95009EA1D9 /* Dictionary.xcdatamodeld */,
-				047EC44429CCD582009EA1D9 /* Alert.swift */,
 			);
 			path = DsmDictionary;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				047EC41329C654C1009EA1D9 /* LaunchScreen.storyboard in Resources */,
+				047EC44729CDDDB8009EA1D9 /* GoogleService-Info.plist in Resources */,
 				047EC41029C654C1009EA1D9 /* Assets.xcassets in Resources */,
 				047EC40E29C654C0009EA1D9 /* Main.storyboard in Resources */,
 			);
