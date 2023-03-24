@@ -18,21 +18,17 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        createUser()
         configurationView()
         startAnimation()
-        createUser()
-        
-    }
     
+    }
     private func createUser(){
-        
-        Auth.auth().signInAnonymously { data, error in
-            if error != nil {
-                Alert.showFirebaseSignInError(on: self, message: error!.localizedDescription)
-            }else{
-                print("*********** KULLANICI \(data!.user.uid)")
+            Auth.auth().signInAnonymously { data, error in
+                if error != nil {
+                    Alert.showFirebaseSignInError(on: self, message: error!.localizedDescription)
+                }
             }
-        }
     }
     
     func configurationView(){

@@ -93,7 +93,7 @@
         <!--Search PageVC-->
         <scene sceneID="Oaw-z4-gM4">
             <objects>
-                <viewController id="1aL-th-T1U" customClass="SearchPageVC" customModule="DsmDictionary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="searchPage" id="1aL-th-T1U" customClass="SearchPageVC" customModule="DsmDictionary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1eG-jx-p4Y">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -160,7 +160,7 @@
                         <outlet property="tableView" destination="6ql-Na-NHy" id="Vym-TV-g1j"/>
                         <outlet property="wordDefinitionLabel" destination="FEv-wL-rlM" id="FNp-NI-RkH"/>
                         <outlet property="wordLabel" destination="Rj7-zo-ECm" id="AYM-Fx-tUI"/>
-                        <segue destination="CSi-AB-xjk" kind="show" identifier="toDetailSearchVC" id="dLb-xg-jY2"/>
+                        <segue destination="CSi-AB-xjk" kind="presentation" identifier="toDetailSearchVC" id="dLb-xg-jY2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a3O-QT-aA5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -170,20 +170,20 @@
         <!--Detail SearchVC-->
         <scene sceneID="2UM-H1-JFN">
             <objects>
-                <viewController id="CSi-AB-xjk" customClass="DetailSearchVC" customModule="DsmDictionary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailSearchPage" id="CSi-AB-xjk" customClass="DetailSearchVC" customModule="DsmDictionary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j7n-Jk-C0d">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="787"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="OsB-Y3-Hyd">
-                                <rect key="frame" x="0.0" y="91" width="390" height="56"/>
+                                <rect key="frame" x="0.0" y="47" width="390" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="CSi-AB-xjk" id="1Ai-od-PT4"/>
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="f7L-X6-h59">
-                                <rect key="frame" x="0.0" y="147" width="390" height="663"/>
+                                <rect key="frame" x="0.0" y="103" width="390" height="684"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>

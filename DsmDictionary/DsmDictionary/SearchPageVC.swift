@@ -35,7 +35,7 @@ class SearchPageVC: UIViewController {
         wordList.removeAll(keepingCapacity: false)
         
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let lastSearchWord = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
+        _ = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
         fetchRequest.returnsObjectsAsFaults = false
