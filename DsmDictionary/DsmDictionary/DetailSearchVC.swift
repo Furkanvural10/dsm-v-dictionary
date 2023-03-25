@@ -7,16 +7,27 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class DetailSearchVC: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
-    
     @IBOutlet weak var searchResultTableView: UITableView!
+    var searchResults = [String]()
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDetailSearchPageView()
         createGestureRecognizer()
+    }
+    
+    private func getData(){
+        let firestoreDB = Firestore.firestore()
+        
+        
     }
     
     private func createGestureRecognizer(){
@@ -46,18 +57,51 @@ class DetailSearchVC: UIViewController {
 
 extension DetailSearchVC: UISearchBarDelegate {
     
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText != ""{
+            
+            let firestoreDB = Firestore.firestore()
+            let collectionRef = firestoreDB.collection("Dictionary")
+            
+            collectionRef.whereField("word", isGreaterThan: searchText)
+                .whereField("word", isLessThanOrEqualTo: searchText + "\u{f8ff}").limit(to: 5)
+                .getDocuments { snapshots, error in
+                    if error != nil {
+                        print("SHOW error")
+                    }else{
+                        self.searchResults.removeAll(keepingCapacity: false)
+                        for document in snapshots!.documents{
+                            if let value = document.get("word") as? String {
+                                self.searchResults.append(value)
+                            }
+                        }
+                        self.searchResultTableView.reloadData()
+                    }
+                }
+            
+        }else{
+            
+        }
+        
+      
+        
+        
+        
+    }
 }
 
 extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         var content = cell.defaultContentConfiguration()
-        content.text = "PlaceHolder"
+        content.text = searchResults[indexPath.row]
         cell.contentConfiguration = content
         return cell
     }
