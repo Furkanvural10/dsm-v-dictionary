@@ -21,7 +21,7 @@ class DetailSearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDetailSearchPageView()
-        createGestureRecognizer()
+//        createGestureRecognizer()
     }
     
     private func getData(){
@@ -30,38 +30,37 @@ class DetailSearchVC: UIViewController {
         
     }
     
-    private func createGestureRecognizer(){
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        view.addGestureRecognizer(gestureRecognizer)
-    }
-    
-     @objc private func hideKeyboard(){
-        self.view.endEditing(true)
-    }
     
     
     func configureDetailSearchPageView(){
-        // Open keyboard
-        searchBar.becomeFirstResponder()
+        
         
         //MARK: - TableView
         self.searchResultTableView.delegate = self
         self.searchResultTableView.dataSource = self
+        self.searchResultTableView.isMultipleTouchEnabled = false
+        self.searchResultTableView.allowsMultipleSelection = false
+        self.searchResultTableView.allowsMultipleSelectionDuringEditing = false
+        self.searchResultTableView.separatorEffect = .none
+        
+        
         
         //MARK: - SearchBar
         self.searchBar.delegate = self
+        self.searchBar.returnKeyType = .done
         self.searchBar.searchBarStyle = .minimal
+        self.searchBar.placeholder = "Kelime Ara"
+        
+        // Open keyboard
+        searchBar.becomeFirstResponder()
     }
     
 }
 
 extension DetailSearchVC: UISearchBarDelegate {
-    
-    
-    
+
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText != ""{
-            
             let firestoreDB = Firestore.firestore()
             let collectionRef = firestoreDB.collection("Dictionary")
             
@@ -84,10 +83,14 @@ extension DetailSearchVC: UISearchBarDelegate {
         }
         self.searchResultTableView.reloadData()
     }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.view.endEditing(true)
+    }
+    
 }
 
 extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResults.count
     }
@@ -99,4 +102,18 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
         cell.contentConfiguration = content
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Diğer sayfaya götür")
+        // Kelimenin detay sayfasına gönder kullanıcıyı
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let header = "Sonuçlar"
+        return "Sonuçlar"
+    }
+    
+    
+    
+    
 }

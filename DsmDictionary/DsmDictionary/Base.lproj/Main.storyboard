@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4Nx-ID-jFI">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -118,7 +117,7 @@
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="6ql-Na-NHy">
-                                <rect key="frame" x="0.0" y="477" width="390" height="333"/>
+                                <rect key="frame" x="0.0" y="467" width="390" height="343"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily Word" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rj7-zo-ECm">
@@ -148,19 +147,19 @@
                             <constraint firstItem="FEv-wL-rlM" firstAttribute="centerX" secondItem="1eG-jx-p4Y" secondAttribute="centerX" id="gDQ-AI-5E6"/>
                             <constraint firstItem="jYV-gw-zn5" firstAttribute="leading" secondItem="UEX-To-fQt" secondAttribute="leading" constant="87" id="gjh-gW-E5P"/>
                             <constraint firstItem="FEv-wL-rlM" firstAttribute="top" secondItem="Rj7-zo-ECm" secondAttribute="bottom" constant="15" id="hjP-5T-Ynu"/>
+                            <constraint firstItem="6ql-Na-NHy" firstAttribute="top" secondItem="S6b-xK-7iW" secondAttribute="bottom" id="itg-y8-84t"/>
                             <constraint firstItem="jYV-gw-zn5" firstAttribute="top" secondItem="UEX-To-fQt" secondAttribute="top" constant="10" id="kUx-ec-niJ"/>
-                            <constraint firstItem="6ql-Na-NHy" firstAttribute="top" secondItem="S6b-xK-7iW" secondAttribute="bottom" constant="10" id="rJw-Mf-uMg"/>
                             <constraint firstItem="S6b-xK-7iW" firstAttribute="centerX" secondItem="1eG-jx-p4Y" secondAttribute="centerX" id="yDb-Lh-kad"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vX9-af-nbm"/>
                     <connections>
                         <outlet property="dailyImageView" destination="jYV-gw-zn5" id="mGa-sX-yeZ"/>
+                        <outlet property="recentSearchWordTableView" destination="6ql-Na-NHy" id="kiC-Vf-bfV"/>
                         <outlet property="searchBar" destination="S6b-xK-7iW" id="Hgs-9Z-kj3"/>
-                        <outlet property="tableView" destination="6ql-Na-NHy" id="Vym-TV-g1j"/>
                         <outlet property="wordDefinitionLabel" destination="FEv-wL-rlM" id="FNp-NI-RkH"/>
                         <outlet property="wordLabel" destination="Rj7-zo-ECm" id="AYM-Fx-tUI"/>
-                        <segue destination="CSi-AB-xjk" kind="presentation" identifier="toDetailSearchVC" id="dLb-xg-jY2"/>
+                        <segue destination="CSi-AB-xjk" kind="show" identifier="toDetailSearchVC" id="dLb-xg-jY2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a3O-QT-aA5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -172,18 +171,18 @@
             <objects>
                 <viewController storyboardIdentifier="detailSearchPage" id="CSi-AB-xjk" customClass="DetailSearchVC" customModule="DsmDictionary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="j7n-Jk-C0d">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="787"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="OsB-Y3-Hyd">
-                                <rect key="frame" x="0.0" y="47" width="390" height="56"/>
+                                <rect key="frame" x="0.0" y="91" width="390" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="CSi-AB-xjk" id="1Ai-od-PT4"/>
                                 </connections>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="f7L-X6-h59">
-                                <rect key="frame" x="0.0" y="103" width="390" height="684"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="f7L-X6-h59">
+                                <rect key="frame" x="0.0" y="147" width="390" height="663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>

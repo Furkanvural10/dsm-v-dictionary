@@ -14,7 +14,8 @@ class SearchPageVC: UIViewController {
     @IBOutlet weak var wordLabel: UILabel!
     @IBOutlet weak var wordDefinitionLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var recentSearchWordTableView: UITableView!
+    
     
     var clickedSearchBar = false
     var wordIDList = [UUID]()
@@ -23,10 +24,7 @@ class SearchPageVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchPageView()
-        createGestureRecognizer()
         getLastSearchWord()
-
-        
     }
     
     private func getLastSearchWord(){
@@ -50,21 +48,14 @@ class SearchPageVC: UIViewController {
                     self.wordIDList.append(id)
                 }
             }
-            self.tableView.reloadData()
+            self.recentSearchWordTableView.reloadData()
             
         } catch  {
             Alert.showCoreDataError(on: self)
         }
     }
     
-    private func createGestureRecognizer(){
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        view.addGestureRecognizer(gestureRecognizer)
-    }
-    
-     @objc private func hideKeyboard(){
-        self.view.endEditing(true)
-    }
+
     
     private func configureSearchPageView(){
         
@@ -75,9 +66,12 @@ class SearchPageVC: UIViewController {
         self.dailyImageView.image = UIImage(named: "Onboarding")
         
         // MARK: - Delegate
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.tableView.separatorStyle = .none
+        self.recentSearchWordTableView.delegate = self
+        self.recentSearchWordTableView.dataSource = self
+        
+        self.searchBar.delegate = self
+        self.searchBar.placeholder = "Ara"
+        self.searchBar.spellCheckingType = .no
         
         // MARK: - Labels
         self.wordLabel.text = "Günün Kelimesi"
@@ -91,13 +85,6 @@ class SearchPageVC: UIViewController {
         self.wordDefinitionLabel.numberOfLines = 0
         self.wordDefinitionLabel.textAlignment = .center
         self.wordDefinitionLabel.font = .systemFont(ofSize: 15)
-        
-        // Search Bar
-        self.searchBar.delegate = self
-        self.searchBar.placeholder = "Ara"
-        self.searchBar.spellCheckingType = .no
-//        self.searchBar.searchBarStyle = .minimal
-
     }
 }
 
@@ -113,6 +100,12 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return wordIDList.count
+        
+        
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("SEÇİLDİ")
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -124,25 +117,16 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
         let deleteSwipe = UIContextualAction(style: .destructive, title: "Sil") { action, view, boolValue in
             print("Silme işlemi")
         }
-        
         return UISwipeActionsConfiguration(actions: [deleteSwipe])
     }
     
 }
 
 extension SearchPageVC: UISearchBarDelegate {
-
-    
-    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-        // MARK: - Cancel searching
-
-        return true
-    }
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         // MARK: - Go To Detail Search Page
         performSegue(withIdentifier: "toDetailSearchVC", sender: nil)
         return true
     }
-    
 }
