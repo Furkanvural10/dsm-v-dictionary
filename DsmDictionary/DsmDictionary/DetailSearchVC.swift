@@ -8,12 +8,15 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import CoreData
 
 class DetailSearchVC: UIViewController {
-
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultTableView: UITableView!
     var searchResults = [String]()
+    var notFoundWord = ""
+    var choosenWord: String?
     
     
     
@@ -21,17 +24,7 @@ class DetailSearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDetailSearchPageView()
-//        createGestureRecognizer()
     }
-    
-    private func getData(){
-        let firestoreDB = Firestore.firestore()
-        
-        
-    }
-    
-    
-    
     func configureDetailSearchPageView(){
         
         
@@ -58,7 +51,7 @@ class DetailSearchVC: UIViewController {
 }
 
 extension DetailSearchVC: UISearchBarDelegate {
-
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText != ""{
             let firestoreDB = Firestore.firestore()
@@ -70,10 +63,16 @@ extension DetailSearchVC: UISearchBarDelegate {
                     if error != nil {
                         Alert.showFirebaseReadDataError(on: self, message: error!.localizedDescription)
                     }else{
-                        self.searchResults.removeAll(keepingCapacity: false)
-                        for document in snapshots!.documents{
-                            if let value = document.get("word") as? String {
-                                self.searchResults.append(value)
+                        print("SONUC: *** \(snapshots!.count)")
+                        if searchText.count > 3 && snapshots!.count == 0 {
+                            self.notFoundWord = "Sonuç Bulunamadı"
+                        }else{
+                            self.notFoundWord = ""
+                            self.searchResults.removeAll(keepingCapacity: false)
+                            for document in snapshots!.documents{
+                                if let value = document.get("word") as? String {
+                                    self.searchResults.append(value)
+                                }
                             }
                         }
                     }
@@ -90,30 +89,54 @@ extension DetailSearchVC: UISearchBarDelegate {
 }
 
 extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if notFoundWord == "Sonuç Bulunamadı" {
+            return 1
+        }
         return searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         var content = cell.defaultContentConfiguration()
+        
+        if self.notFoundWord == "Sonuç Bulunamadı"{
+            content.text = "Sonuç Bulunamadı"
+            cell.contentConfiguration = content
+            return cell
+        }
         content.text = searchResults[indexPath.row]
+        self.choosenWord = searchResults[indexPath.row]
         cell.contentConfiguration = content
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Diğer sayfaya götür")
-        // Kelimenin detay sayfasına gönder kullanıcıyı
+        if let choosedWord = choosenWord {
+            saveWordCoreData(choosedWord: choosedWord)
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let header = "Sonuçlar"
-        return "Sonuçlar"
+        return header
     }
     
-    
-    
-    
+    func saveWordCoreData(choosedWord: String){
+        print(choosedWord)
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let lastSearchWord = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
+
+        lastSearchWord.setValue(choosedWord, forKey: "word")
+        lastSearchWord.setValue(UUID(), forKey: "id")
+
+        do {
+            try context.save()
+        } catch  {
+            print("HATA")
+        }
+        
+        
+    }
 }
