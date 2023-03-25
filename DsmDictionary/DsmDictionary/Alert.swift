@@ -26,4 +26,8 @@ struct Alert {
     static func showFirebaseSignInError(on vc: UIViewController, message: String){
         showBasicAlert(on: vc, with: "Hata", message: message)
     }
+    
+    static func showFirebaseReadDataError(on vc: UIViewController, message: String){
+        showBasicAlert(on: vc, with: "Hata", message: message)
+    }
 }

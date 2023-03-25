@@ -69,7 +69,7 @@ extension DetailSearchVC: UISearchBarDelegate {
                 .whereField("word", isLessThanOrEqualTo: searchText + "\u{f8ff}").limit(to: 5)
                 .getDocuments { snapshots, error in
                     if error != nil {
-                        print("SHOW error")
+                        Alert.showFirebaseReadDataError(on: self, message: error!.localizedDescription)
                     }else{
                         self.searchResults.removeAll(keepingCapacity: false)
                         for document in snapshots!.documents{
@@ -77,18 +77,12 @@ extension DetailSearchVC: UISearchBarDelegate {
                                 self.searchResults.append(value)
                             }
                         }
-                        self.searchResultTableView.reloadData()
                     }
                 }
-            
         }else{
-            
+            self.searchResults.removeAll(keepingCapacity: false)
         }
-        
-      
-        
-        
-        
+        self.searchResultTableView.reloadData()
     }
 }
 
