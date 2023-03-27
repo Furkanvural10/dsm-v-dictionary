@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import FirebaseFirestore
 
 class SearchPageVC: UIViewController {
     
@@ -27,6 +28,7 @@ class SearchPageVC: UIViewController {
         super.viewDidLoad()
         configureSearchPageView()
         getLastSearchWord()
+        getDailyWord()
     }
     
     private func getLastSearchWord(){
@@ -94,7 +96,6 @@ class SearchPageVC: UIViewController {
             Alert.showCoreDataError(on: self)
         }
     }
-
     private func configureSearchPageView(){
         
         // Hide backbutton
@@ -112,17 +113,31 @@ class SearchPageVC: UIViewController {
         self.searchBar.spellCheckingType = .no
         
         // MARK: - Labels
-        self.wordLabel.text = "Günün Kelimesi"
         self.wordLabel.numberOfLines = 0
         self.wordLabel.textColor = .black
         self.wordLabel.textAlignment = .center
         self.wordLabel.font = .boldSystemFont(ofSize: 35)
         
-        self.wordDefinitionLabel.text = "Günün kelimesinin açıklaması burada olacak - Günün kelimesinin açıklaması burada olacak"
         self.wordDefinitionLabel.textColor = .black.withAlphaComponent(0.5)
         self.wordDefinitionLabel.numberOfLines = 0
         self.wordDefinitionLabel.textAlignment = .center
         self.wordDefinitionLabel.font = .systemFont(ofSize: 15)
+    }
+    private func getDailyWord(){
+        let database = Firestore.firestore()
+        let myCollection = database.collection("DailyWord")
+        myCollection.getDocuments { snapshot, error in
+            if error == nil {
+                for i in snapshot!.documents{
+                    if let word = i.get("dailyWord") as? String{
+                        self.wordLabel.text = word
+                    }
+                    if let wordDefinition = i.get("definition") as? String{
+                        self.wordDefinitionLabel.text = wordDefinition
+                    }
+                }
+            }
+        }
     }
 }
 
