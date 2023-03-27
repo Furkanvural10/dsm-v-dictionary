@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import Kingfisher
 
 class ViewController: UIViewController {
     
@@ -22,7 +23,7 @@ class ViewController: UIViewController {
         createUser()
         configurationView()
         startAnimation()
-        getOnboardingText()
+        getOnboardingTextAndImage()
     
     }
     private func createUser(){
@@ -33,7 +34,7 @@ class ViewController: UIViewController {
             }
     }
     
-    private func getOnboardingText(){
+    private func getOnboardingTextAndImage(){
         let database = Firestore.firestore()
         let collection = database.collection("Onboarding")
         collection.addSnapshotListener { snapshot, error in
@@ -47,6 +48,11 @@ class ViewController: UIViewController {
                     }
                     if let wordDefinition3 = document.get("definition3") as? String {
                         self.thirdDefinitionLabel.text = wordDefinition3
+                    }
+                    if let imageUrl = document.get("imageUrl") as? String{
+                        if let url = URL(string: imageUrl){
+                            self.onboardingImage.kf.setImage(with: url)
+                        }
                     }
                 }
             }else{

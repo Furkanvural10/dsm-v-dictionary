@@ -10,6 +10,7 @@ pod 'FirebaseAuth'
 pod 'FirebaseFirestore'
 pod 'FirebaseStorage'
 pod 'FirebaseCore'
+pod 'Kingfisher', '~> 7.0'
 
   # Pods for DsmDictionary
 

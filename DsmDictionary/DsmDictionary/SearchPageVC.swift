@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 import FirebaseFirestore
+import Kingfisher
 
 class SearchPageVC: UIViewController {
     
@@ -134,6 +135,11 @@ class SearchPageVC: UIViewController {
                     }
                     if let wordDefinition = i.get("definition") as? String{
                         self.wordDefinitionLabel.text = wordDefinition
+                    }
+                    if let imageUrl = i.get("imageUrl") as? String{
+                        if let url = URL(string: imageUrl) {
+                            self.dailyImageView.kf.setImage(with: url)
+                        }
                     }
                 }
             }else{
