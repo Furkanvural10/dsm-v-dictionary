@@ -14,9 +14,7 @@ class DetailSearchVC: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultTableView: UITableView!
-    var searchResults = [String]()
-    var notFoundWord = ""
-    var choosenWord: String?
+    var searchResult = [String]()
     
     
     
@@ -26,8 +24,6 @@ class DetailSearchVC: UIViewController {
         configureDetailSearchPageView()
     }
     func configureDetailSearchPageView(){
-        
-        
         //MARK: - TableView
         self.searchResultTableView.delegate = self
         self.searchResultTableView.dataSource = self
@@ -35,8 +31,6 @@ class DetailSearchVC: UIViewController {
         self.searchResultTableView.allowsMultipleSelection = false
         self.searchResultTableView.allowsMultipleSelectionDuringEditing = false
         self.searchResultTableView.separatorEffect = .none
-        
-        
         
         //MARK: - SearchBar
         self.searchBar.delegate = self
@@ -48,39 +42,36 @@ class DetailSearchVC: UIViewController {
         searchBar.becomeFirstResponder()
     }
     
+    
 }
 
 extension DetailSearchVC: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let db = Firestore.firestore()
+        let myCollection = db.collection("Dictionary")
         if searchText != ""{
-            let firestoreDB = Firestore.firestore()
-            let collectionRef = firestoreDB.collection("Dictionary")
-            
-            collectionRef.whereField("word", isGreaterThan: searchText)
-                .whereField("word", isLessThanOrEqualTo: searchText + "\u{f8ff}").limit(to: 5)
-                .getDocuments { snapshots, error in
-                    if error != nil {
-                        Alert.showFirebaseReadDataError(on: self, message: error!.localizedDescription)
-                    }else{
-                        print("SONUC: *** \(snapshots!.count)")
-                        if searchText.count > 3 && snapshots!.count == 0 {
-                            self.notFoundWord = "Sonuç Bulunamadı"
-                        }else{
-                            self.notFoundWord = ""
-                            self.searchResults.removeAll(keepingCapacity: false)
-                            for document in snapshots!.documents{
-                                if let value = document.get("word") as? String {
-                                    self.searchResults.append(value)
-                                }
-                            }
-                        }
+        myCollection.whereField("word", isGreaterThanOrEqualTo: searchText)
+                .whereField("word", isLessThan: searchText + "\u{f8ff}").limit(to: 10)
+                    .addSnapshotListener { (querySnapshot, error) in
+            if let error = error {
+                Alert.showFirebaseReadDataError(on: self, message: error.localizedDescription)
+            } else {
+                self.searchResult.removeAll()
+                for document in querySnapshot!.documents {
+                    if let result = document.get("word") as? String {
+                        self.searchResult.append(result)
                     }
                 }
-        }else{
-            self.searchResults.removeAll(keepingCapacity: false)
+                self.searchResultTableView.reloadData()
+            }
         }
-        self.searchResultTableView.reloadData()
+
+        }else{
+            self.searchResult.removeAll()
+            self.searchResultTableView.reloadData()
+        }
+
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.view.endEditing(true)
@@ -91,31 +82,20 @@ extension DetailSearchVC: UISearchBarDelegate {
 extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if notFoundWord == "Sonuç Bulunamadı" {
-            return 1
-        }
-        return searchResults.count
+        return searchResult.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = UITableViewCell()
         var content = cell.defaultContentConfiguration()
-        
-        if self.notFoundWord == "Sonuç Bulunamadı"{
-            content.text = "Sonuç Bulunamadı"
-            cell.contentConfiguration = content
-            return cell
-        }
-        content.text = searchResults[indexPath.row]
-        self.choosenWord = searchResults[indexPath.row]
+        content.text = searchResult[indexPath.row]
         cell.contentConfiguration = content
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let choosedWord = choosenWord {
-            saveWordCoreData(choosedWord: choosedWord)
-        }
+        saveWordCoreData(choosedWord: searchResult[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -124,19 +104,13 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func saveWordCoreData(choosedWord: String){
-        print(choosedWord)
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context        = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let lastSearchWord = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
-
+        
         lastSearchWord.setValue(choosedWord, forKey: "word")
         lastSearchWord.setValue(UUID(), forKey: "id")
-
-        do {
-            try context.save()
-        } catch  {
-            print("HATA")
-        }
-        
-        
+        lastSearchWord.setValue(Date(), forKey: "createdAt")
+        do      {   try context.save()}
+        catch   { Alert.showCoreDataError(on: self) }
     }
 }

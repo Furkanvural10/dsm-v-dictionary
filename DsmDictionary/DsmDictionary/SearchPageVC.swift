@@ -19,7 +19,9 @@ class SearchPageVC: UIViewController {
     
     var clickedSearchBar = false
     var wordIDList = [UUID]()
+    var createdList = [Date]()
     var wordList = [String]()
+    var reverstedWordList = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +32,13 @@ class SearchPageVC: UIViewController {
     private func getLastSearchWord(){
         
         wordList.removeAll(keepingCapacity: false)
-        wordList.removeAll(keepingCapacity: false)
+        wordIDList.removeAll(keepingCapacity: false)
         
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         _ = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
         
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         fetchRequest.returnsObjectsAsFaults = false
         
         do {
@@ -47,6 +50,9 @@ class SearchPageVC: UIViewController {
                 if let id = i.value(forKey: "id") as? UUID {
                     self.wordIDList.append(id)
                 }
+                if let date = i.value(forKey: "createdAt") as? Date {
+                    self.createdList.append(date)
+                }
             }
             self.recentSearchWordTableView.reloadData()
             
@@ -54,9 +60,41 @@ class SearchPageVC: UIViewController {
             Alert.showCoreDataError(on: self)
         }
     }
-    
+    private func deleteLastSearchWord(indexPath: Int){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
+        let idString = wordIDList[indexPath].uuidString
+        
+        fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            if result.count > 0 {
+                for i in result as! [NSManagedObject]{
+                    if let id = i.value(forKey: "id") as? UUID{
+                        if id == wordIDList[indexPath]{
+                            context.delete(i)
+                            wordList.remove(at: indexPath)
+                            wordIDList.remove(at: indexPath)
+                            createdList.remove(at: indexPath)
+                            self.recentSearchWordTableView.deleteRows(at: [IndexPath(row: indexPath, section: 0)], with: .left)
+                            
+                            do {
+                                try context.save()
+                            } catch  {
+                                Alert.showCoreDataError(on: self)
+                            }
+                            break
+                        }
+                    }
+                }
+            }
+        } catch  {
+            Alert.showCoreDataError(on: self)
+        }
+    }
 
-    
     private func configureSearchPageView(){
         
         // Hide backbutton
@@ -91,6 +129,7 @@ class SearchPageVC: UIViewController {
 extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = UITableViewCell()
         var content = cell.defaultContentConfiguration()
         content.text = self.wordList[indexPath.row]
@@ -99,9 +138,7 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return wordIDList.count
-        
-        
+        return createdList.count
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -113,11 +150,10 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
             return title
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteSwipe = UIContextualAction(style: .destructive, title: "Sil") { action, view, boolValue in
-            print("Silme işlemi")
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            self.deleteLastSearchWord(indexPath: indexPath.row)
         }
-        return UISwipeActionsConfiguration(actions: [deleteSwipe])
     }
     
 }
