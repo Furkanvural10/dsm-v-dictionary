@@ -126,7 +126,7 @@ class SearchPageVC: UIViewController {
     private func getDailyWord(){
         let database = Firestore.firestore()
         let myCollection = database.collection("DailyWord")
-        myCollection.getDocuments { snapshot, error in
+        myCollection.addSnapshotListener { snapshot, error in
             if error == nil {
                 for i in snapshot!.documents{
                     if let word = i.get("dailyWord") as? String{
