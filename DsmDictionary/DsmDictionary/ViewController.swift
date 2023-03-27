@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
 
 class ViewController: UIViewController {
     
@@ -21,6 +22,7 @@ class ViewController: UIViewController {
         createUser()
         configurationView()
         startAnimation()
+        getOnboardingText()
     
     }
     private func createUser(){
@@ -31,12 +33,30 @@ class ViewController: UIViewController {
             }
     }
     
+    private func getOnboardingText(){
+        let database = Firestore.firestore()
+        let collection = database.collection("Onboarding")
+        collection.addSnapshotListener { snapshot, error in
+            if error == nil {
+                for document in snapshot!.documents {
+                    if let wordDefinition1 = document.get("definition1") as? String {
+                        self.firstDefinitionLabel.text = wordDefinition1
+                    }
+                    if let wordDefinition2 = document.get("definition2") as? String {
+                        self.secondDefinitionLabel.text = wordDefinition2
+                    }
+                    if let wordDefinition3 = document.get("definition3") as? String {
+                        self.thirdDefinitionLabel.text = wordDefinition3
+                    }
+                }
+            }else{
+                Alert.showFirebaseReadDataError(on: self, message: "Hata oluştu. Lütfen tekrar deneyin")
+            }
+        }
+    }
+    
     func configurationView(){
         
-        // MARK: - Labels Configuration
-        firstDefinitionLabel.text  = "Definition-1"
-        secondDefinitionLabel.text = "Definition-2"
-        thirdDefinitionLabel.text  = "Definition-3"
         
         // MARK: - Button configuration
         let buttonTitle = "Başla"

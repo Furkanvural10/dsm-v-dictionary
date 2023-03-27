@@ -136,6 +136,9 @@ class SearchPageVC: UIViewController {
                         self.wordDefinitionLabel.text = wordDefinition
                     }
                 }
+            }else{
+                let message = "Bir hata oluştur lütfen tekrar deneyin"
+                Alert.showFirebaseReadDataError(on: self, message: message )
             }
         }
     }
