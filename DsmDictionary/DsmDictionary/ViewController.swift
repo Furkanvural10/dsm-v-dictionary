@@ -69,7 +69,11 @@ class ViewController: UIViewController {
         onboardingImage.clipsToBounds = true
     }
 
-    @IBAction func getStartedButton(_ sender: Any) { endOnboardingPage() }
+    @IBAction func getStartedButton(_ sender: Any) {
+        endOnboardingPage()
+        
+        
+    }
     
     func startAnimation(){
         
@@ -114,9 +118,10 @@ class ViewController: UIViewController {
     
     func endOnboardingPage(){
         
+        self.getStartedButton.isMultipleTouchEnabled = false
         // MARK: - Constant
         let duration = 0.8
-        let buttonDuration = 1.5
+        let buttonDuration = 1.0
         let delay: TimeInterval = 0
         let option = UIView.AnimationOptions.curveEaseOut
         let translationX: CGFloat = 500
@@ -125,12 +130,15 @@ class ViewController: UIViewController {
         
         
         UIView.animate(withDuration: duration, delay: delay, options: option) {
-            // Nonvisible imageView
-            self.onboardingImage.alpha = 0
+            // Nonvisible button
+            self.getStartedButton.alpha = 0
+            
         } completion: { _ in
             UIView.animate(withDuration: duration, delay: delay) {
-                // Disappear first definition
+                // Disappear first definition and imageView
+                self.onboardingImage.alpha = 0
                 self.firstDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
+                
             } completion: { _ in
                 UIView.animate(withDuration: duration, delay: delay) {
                     // Disappear second definition
@@ -140,14 +148,10 @@ class ViewController: UIViewController {
                         // Disappear third definition
                         self.thirdDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
                     } completion: { _ in
-                        // Disappear getStartedbutton
+                        // Go To SearchPage
                         UIView.animate(withDuration: buttonDuration, delay: delay, options: option) {
-                            self.getStartedButton.transform = CGAffineTransform(translationX: translationX, y: translationY)
-                            self.getStartedButton.alpha = 0
-                        } completion: { _ in
                             self.performSegue(withIdentifier: "toSearchPageVC", sender: nil)
                         }
-
                     }
 
                 }
