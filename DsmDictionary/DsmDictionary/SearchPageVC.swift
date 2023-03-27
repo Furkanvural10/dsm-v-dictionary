@@ -32,7 +32,11 @@ class SearchPageVC: UIViewController {
         getDailyWord()
     }
     
-    private func getLastSearchWord(){
+    override func viewWillAppear(_ animated: Bool) {
+        print("Ne zaman calısacak")
+    }
+    
+    @objc private func getLastSearchWord(){
         
         wordList.removeAll(keepingCapacity: false)
         wordIDList.removeAll(keepingCapacity: false)

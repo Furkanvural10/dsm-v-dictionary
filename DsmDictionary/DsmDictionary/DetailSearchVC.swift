@@ -110,7 +110,11 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
         lastSearchWord.setValue(choosedWord, forKey: "word")
         lastSearchWord.setValue(UUID(), forKey: "id")
         lastSearchWord.setValue(Date(), forKey: "createdAt")
-        do      {   try context.save()}
+        do      {
+            try context.save()
+            NotificationCenter.default.post(name: NSNotification.Name("newWordAdded"), object: nil)
+            
+        }
         catch   { Alert.showCoreDataError(on: self) }
     }
 }
