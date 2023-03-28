@@ -18,6 +18,7 @@
 		047EC44329CC7B95009EA1D9 /* Dictionary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 047EC44129CC7B95009EA1D9 /* Dictionary.xcdatamodeld */; };
 		047EC44529CCD582009EA1D9 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC44429CCD582009EA1D9 /* Alert.swift */; };
 		047EC44729CDDDB8009EA1D9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 047EC44629CDDDB8009EA1D9 /* GoogleService-Info.plist */; };
+		0494C2CF29D33746000D71A7 /* WordDefinitionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0494C2CE29D33746000D71A7 /* WordDefinitionVC.swift */; };
 		1D40301E8C249F2EB5840959 /* Pods_DsmDictionary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F564AA699D81F8A49D15ACC /* Pods_DsmDictionary.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		047EC44229CC7B95009EA1D9 /* Dictionary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dictionary.xcdatamodel; sourceTree = "<group>"; };
 		047EC44429CCD582009EA1D9 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		047EC44629CDDDB8009EA1D9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0494C2CE29D33746000D71A7 /* WordDefinitionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDefinitionVC.swift; sourceTree = "<group>"; };
 		4F564AA699D81F8A49D15ACC /* Pods_DsmDictionary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DsmDictionary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD7A65331CB385FCE4CE5182 /* Pods-DsmDictionary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DsmDictionary.release.xcconfig"; path = "Target Support Files/Pods-DsmDictionary/Pods-DsmDictionary.release.xcconfig"; sourceTree = "<group>"; };
 		E4FD45B121B539B018013CFE /* Pods-DsmDictionary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DsmDictionary.debug.xcconfig"; path = "Target Support Files/Pods-DsmDictionary/Pods-DsmDictionary.debug.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				047EC41429C654C1009EA1D9 /* Info.plist */,
 				047EC44629CDDDB8009EA1D9 /* GoogleService-Info.plist */,
 				047EC44129CC7B95009EA1D9 /* Dictionary.xcdatamodeld */,
+				0494C2CE29D33746000D71A7 /* WordDefinitionVC.swift */,
 			);
 			path = DsmDictionary;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				047EC40729C654C0009EA1D9 /* AppDelegate.swift in Sources */,
 				047EC40929C654C0009EA1D9 /* SceneDelegate.swift in Sources */,
 				047EC44529CCD582009EA1D9 /* Alert.swift in Sources */,
+				0494C2CF29D33746000D71A7 /* WordDefinitionVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
