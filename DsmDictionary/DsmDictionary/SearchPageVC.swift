@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import FirebaseAuth
 import FirebaseFirestore
 import Kingfisher
 
@@ -28,12 +29,24 @@ class SearchPageVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchPageView()
+        createUser()
         getLastSearchWord()
         getDailyWord()
     }
     
+    func createUser(){
+        let currentUser = Auth.auth().currentUser
+        if currentUser == nil {
+                Auth.auth().signInAnonymously { data, error in
+                    if error != nil {
+                        Alert.showFirebaseSignInError(on: self, message: error!.localizedDescription)
+                    }
+                }
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
-        print("Ne zaman calısacak")
+        
     }
     
     @objc private func getLastSearchWord(){

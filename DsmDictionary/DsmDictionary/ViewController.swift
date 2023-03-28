@@ -18,20 +18,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var thirdDefinitionLabel: UILabel!
     @IBOutlet weak var getStartedButton: UIButton!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        createUser()
+        checkPass()
         configurationView()
         startAnimation()
         getOnboardingTextAndImage()
-    
+        
     }
-    private func createUser(){
-            Auth.auth().signInAnonymously { data, error in
-                if error != nil {
-                    Alert.showFirebaseSignInError(on: self, message: error!.localizedDescription)
-                }
-            }
+    
+    func checkPass(){
+        let result = UserDefaults.standard.object(forKey: "finishedOnboarding")
+        if (result as? Bool) != nil {
+            self.performSegue(withIdentifier: "toSearchPageVC", sender: nil)
+        }
     }
     
     private func getOnboardingTextAndImage(){
@@ -124,6 +126,7 @@ class ViewController: UIViewController {
     
     func endOnboardingPage(){
         
+        UserDefaults.standard.setValue(true, forKey: "finishedOnboarding")
         self.getStartedButton.isMultipleTouchEnabled = false
         // MARK: - Constant
         let duration = 0.8

@@ -95,6 +95,7 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         saveWordCoreData(choosedWord: searchResult[indexPath.row])
     }
     
