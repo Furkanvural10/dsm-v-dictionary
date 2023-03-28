@@ -179,11 +179,11 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return createdList.count
+        return wordList.count
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        print(wordList[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -191,11 +191,14 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
             return title
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Sil") { action, view, handler in
             self.deleteLastSearchWord(indexPath: indexPath.row)
+            handler(true)
         }
+        return UISwipeActionsConfiguration(actions: [delete])
     }
+    
     
 }
 
