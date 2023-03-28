@@ -211,6 +211,21 @@
             </objects>
             <point key="canvasLocation" x="2416.9230769230767" y="1.4218009478672986"/>
         </scene>
+        <!--Word DefinitionVC-->
+        <scene sceneID="NfO-Re-X7W">
+            <objects>
+                <viewController id="7qh-RD-KhB" customClass="WordDefinitionVC" customModule="DsmDictionary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Icn-uy-UUM">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="JRG-g2-eKa"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qbg-cF-TZp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3222" y="1"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Eb1-6r-O8k">
             <objects>
