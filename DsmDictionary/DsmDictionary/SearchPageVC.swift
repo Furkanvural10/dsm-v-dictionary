@@ -46,7 +46,7 @@ class SearchPageVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        getLastSearchWord()
     }
     
     @objc private func getLastSearchWord(){
