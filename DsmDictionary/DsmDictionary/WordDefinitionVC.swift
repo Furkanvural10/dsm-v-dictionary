@@ -8,7 +8,15 @@
 import UIKit
 
 class WordDefinitionVC: UIViewController {
-
+    
+    
+    @IBOutlet weak var mainWordView: UIView!
+    @IBOutlet weak var wordInTheMainView: UILabel!
+    @IBOutlet weak var favButton: UIButton!
+    @IBOutlet weak var definitionTitle: UILabel!
+    @IBOutlet weak var definitionMainView: UIView!
+    @IBOutlet weak var wordDefinitionTextView: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,5 +33,7 @@ class WordDefinitionVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    @IBAction func favButton(_ sender: Any) {
+    }
+    
 }
