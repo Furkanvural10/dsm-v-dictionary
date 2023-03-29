@@ -27,6 +27,11 @@ class WordDefinitionVC: UIViewController {
     private func configurationView(){
         self.comorbidTableView.delegate = self
         self.comorbidTableView.dataSource = self
+        
+        // MARK: - Word
+        self.wordLabel.text = "WORD"
+        self.wordLabel.font = .boldSystemFont(ofSize: 30)
+        
     }
 }
 
