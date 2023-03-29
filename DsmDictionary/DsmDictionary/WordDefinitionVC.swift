@@ -27,6 +27,8 @@ class WordDefinitionVC: UIViewController {
     private func configurationView(){
         self.comorbidTableView.delegate = self
         self.comorbidTableView.dataSource = self
+        self.comorbidTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        
         
         // MARK: - Word
         self.wordLabel.text = "WORD"
@@ -45,7 +47,8 @@ class WordDefinitionVC: UIViewController {
         //MARK: - DefinitionLabel
         self.definitionDetailLabel.text = "Schizophrenia is a serious mental disorder in which people interpret reality abnormally. Schizophrenia may result in some combination of hallucinations, delusions, and extremely disordered thinking and behavior that impairs daily functioning, and can be disabling."
 //        self.definitionDetailLabel.numberOfLines = 0
-        self.definitionDetailLabel.font = .systemFont(ofSize: 14)
+        self.definitionDetailLabel.font = .systemFont(ofSize: 15)
+        self.definitionDetailLabel.alpha = 0.8
         self.definitionDetailLabel.adjustsFontSizeToFitWidth = true
         
         
@@ -60,14 +63,19 @@ extension WordDefinitionVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.comorbidTableView.dequeueReusableCell(withIdentifier: "comorbidID1", for: indexPath) as! ComorbidTableViewCell
-        cell.comorbirLabel1.text = "Deneme1"
-        cell.comorbidLabel2.text = "Deneme2"
+        let cell = UITableViewCell()
+        var content = cell.defaultContentConfiguration()
+        content.text = "Deneme"
+        cell.contentConfiguration = content
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Comorbid"
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
     }
 }
 
