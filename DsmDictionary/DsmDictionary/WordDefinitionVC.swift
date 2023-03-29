@@ -38,6 +38,9 @@ class WordDefinitionVC: UIViewController {
         self.languageSegmentedControl.selectedSegmentTintColor = UIColor(red: 0x47, green: 0x2f, blue: 0x92)
         self.languageSegmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         
+        // MARK: - DefinitionLabel
+        self.definitionLabel.text = "Açıklama"
+        self.definitionLabel.font = .boldSystemFont(ofSize: 20)
     }
 }
 
