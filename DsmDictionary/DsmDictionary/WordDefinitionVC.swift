@@ -38,9 +38,18 @@ class WordDefinitionVC: UIViewController {
         self.languageSegmentedControl.selectedSegmentTintColor = UIColor(red: 0x47, green: 0x2f, blue: 0x92)
         self.languageSegmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
         
-        // MARK: - DefinitionLabel
+        // MARK: - DefinitiontTitleLabel
         self.definitionLabel.text = "Açıklama"
         self.definitionLabel.font = .boldSystemFont(ofSize: 20)
+        
+        //MARK: - DefinitionLabel
+        self.definitionDetailLabel.text = "Schizophrenia is a serious mental disorder in which people interpret reality abnormally. Schizophrenia may result in some combination of hallucinations, delusions, and extremely disordered thinking and behavior that impairs daily functioning, and can be disabling."
+//        self.definitionDetailLabel.numberOfLines = 0
+        self.definitionDetailLabel.font = .systemFont(ofSize: 14)
+        self.definitionDetailLabel.adjustsFontSizeToFitWidth = true
+        
+        
+
     }
 }
 
