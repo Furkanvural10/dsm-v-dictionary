@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5V3-r1-FVH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4Nx-ID-jFI">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
@@ -152,7 +152,9 @@
                             <constraint firstItem="S6b-xK-7iW" firstAttribute="centerX" secondItem="1eG-jx-p4Y" secondAttribute="centerX" id="yDb-Lh-kad"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="vX9-af-nbm"/>
+                    <navigationItem key="navigationItem" id="vX9-af-nbm">
+                        <barButtonItem key="backBarButtonItem" title="Geri" id="Qzt-lc-ssa"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="dailyImageView" destination="jYV-gw-zn5" id="mGa-sX-yeZ"/>
                         <outlet property="recentSearchWordTableView" destination="6ql-Na-NHy" id="kiC-Vf-bfV"/>
@@ -160,6 +162,7 @@
                         <outlet property="wordDefinitionLabel" destination="FEv-wL-rlM" id="FNp-NI-RkH"/>
                         <outlet property="wordLabel" destination="Rj7-zo-ECm" id="AYM-Fx-tUI"/>
                         <segue destination="CSi-AB-xjk" kind="show" identifier="toDetailSearchVC" id="dLb-xg-jY2"/>
+                        <segue destination="5V3-r1-FVH" kind="show" identifier="toDetailWordVC" id="owA-PL-VJ3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a3O-QT-aA5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -199,13 +202,11 @@
                             <constraint firstItem="OsB-Y3-Hyd" firstAttribute="trailing" secondItem="hYO-Zd-IXt" secondAttribute="trailing" id="u33-Ln-RFg"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Ynt-Mm-qjB">
-                        <barButtonItem key="backBarButtonItem" title="Geri" id="NSu-EX-dca"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="Ynt-Mm-qjB"/>
                     <connections>
                         <outlet property="searchBar" destination="OsB-Y3-Hyd" id="ZhM-eG-es7"/>
                         <outlet property="searchResultTableView" destination="f7L-X6-h59" id="fip-pH-DMH"/>
-                        <segue destination="5V3-r1-FVH" kind="show" id="w4w-aS-Nvv"/>
+                        <segue destination="5V3-r1-FVH" kind="show" identifier="toDetailWordVC" id="w4w-aS-Nvv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jlr-sR-fo3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -320,7 +321,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ddd-tf-8jg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3193.8461538461538" y="0.7109004739336493"/>
+            <point key="canvasLocation" x="2028" y="833"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Eb1-6r-O8k">
@@ -341,6 +342,9 @@
             <point key="canvasLocation" x="-147.82608695652175" y="3.3482142857142856"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="owA-PL-VJ3"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Onboarding" width="128" height="128"/>
         <systemColor name="labelColor">

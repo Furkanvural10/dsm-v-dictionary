@@ -184,6 +184,7 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(wordList[indexPath.row])
+        performSegue(withIdentifier: "toDetailWordVC", sender: nil)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

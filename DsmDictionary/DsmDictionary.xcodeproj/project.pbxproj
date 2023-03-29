@@ -81,13 +81,13 @@
 				047EC41A29C9D9FF009EA1D9 /* SearchPageVC.swift */,
 				047EC41C29CBA488009EA1D9 /* DetailSearchVC.swift */,
 				047EC44429CCD582009EA1D9 /* Alert.swift */,
+				0494C2CE29D33746000D71A7 /* WordDefinitionVC.swift */,
 				047EC40C29C654C0009EA1D9 /* Main.storyboard */,
 				047EC40F29C654C1009EA1D9 /* Assets.xcassets */,
 				047EC41129C654C1009EA1D9 /* LaunchScreen.storyboard */,
 				047EC41429C654C1009EA1D9 /* Info.plist */,
 				047EC44629CDDDB8009EA1D9 /* GoogleService-Info.plist */,
 				047EC44129CC7B95009EA1D9 /* Dictionary.xcdatamodeld */,
-				0494C2CE29D33746000D71A7 /* WordDefinitionVC.swift */,
 			);
 			path = DsmDictionary;
 			sourceTree = "<group>";

@@ -97,6 +97,7 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         saveWordCoreData(choosedWord: searchResult[indexPath.row])
+        performSegue(withIdentifier: "toDetailWordVC", sender: nil)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
