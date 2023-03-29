@@ -18,17 +18,25 @@ class WordDefinitionVC: UIViewController {
     @IBOutlet weak var comorbidTableView: UITableView!
     @IBOutlet weak var dsmDetailTextView: UITextView!
     
+    @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
         configurationView()
         
     }
     
+    @IBAction func bookmarkButton(_ sender: Any) {
+        
+    }
     private func configurationView(){
         self.comorbidTableView.delegate = self
         self.comorbidTableView.dataSource = self
         self.comorbidTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+
         
+        
+        // MARK: - Bookmark Button
+        self.bookmarkButton.image = UIImage(systemName: "bookmark")
         
         // MARK: - Word
         self.wordLabel.text = "WORD"
@@ -44,12 +52,20 @@ class WordDefinitionVC: UIViewController {
         self.definitionLabel.text = "Açıklama"
         self.definitionLabel.font = .boldSystemFont(ofSize: 20)
         
-        //MARK: - DefinitionLabel
+        //MARK: - DefinitionDetailLabel
         self.definitionDetailLabel.text = "Schizophrenia is a serious mental disorder in which people interpret reality abnormally. Schizophrenia may result in some combination of hallucinations, delusions, and extremely disordered thinking and behavior that impairs daily functioning, and can be disabling."
-//        self.definitionDetailLabel.numberOfLines = 0
         self.definitionDetailLabel.font = .systemFont(ofSize: 15)
-        self.definitionDetailLabel.alpha = 0.8
+        self.definitionDetailLabel.alpha = 0.6
         self.definitionDetailLabel.adjustsFontSizeToFitWidth = true
+        
+        //MARK: - DSM-V Title
+        self.dsmTitleLabel.text = "DSM-V"
+        self.dsmTitleLabel.font = .boldSystemFont(ofSize: 20)
+        
+        // MARK: - TextView
+        self.dsmDetailTextView.text = "Schizophrenia is a serious mental disorder in which people interpret reality abnormally. Schizophrenia may result in some combination of hallucinations, delusions, and extremely disordered thinking and behavior that impairs daily functioning, and can be disabling."
+        self.dsmDetailTextView.alpha = 0.6
+        self.dsmDetailTextView.isEditable = false
         
         
 
@@ -59,24 +75,39 @@ class WordDefinitionVC: UIViewController {
 extension WordDefinitionVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let text = "Şizofreni"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(red: 0x47, green: 0x2f, blue: 0x92),
+            .font: UIFont.boldSystemFont(ofSize: 15),
+        ]
+        let attributedString = NSAttributedString(string: text, attributes: attributes)
         let cell = UITableViewCell()
+        cell.selectionStyle = .none
         var content = cell.defaultContentConfiguration()
-        content.text = "Deneme"
+        content.attributedText = attributedString
         cell.contentConfiguration = content
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Comorbid"
+        return "Comorbid - (5)"
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 35
+    }
+    
+    
+    
 }
 
 extension UIColor {

@@ -252,7 +252,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Npd-mg-SFN">
-                                <rect key="frame" x="20" y="502.33333333333326" width="350" height="307.66666666666674"/>
+                                <rect key="frame" x="20" y="490.33333333333326" width="350" height="319.66666666666674"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -289,7 +289,7 @@
                             <constraint firstItem="bN2-CZ-4KF" firstAttribute="top" secondItem="eI7-76-TQy" secondAttribute="bottom" constant="20" id="gm7-ML-p82"/>
                             <constraint firstItem="NH1-JG-UWB" firstAttribute="leading" secondItem="v3A-GA-6dY" secondAttribute="leading" id="hcq-lW-bL7"/>
                             <constraint firstItem="bN2-CZ-4KF" firstAttribute="centerX" secondItem="0Yq-zt-TeV" secondAttribute="centerX" id="izs-Co-uM6"/>
-                            <constraint firstItem="Npd-mg-SFN" firstAttribute="top" secondItem="Nj3-vU-3WP" secondAttribute="bottom" constant="15" id="j6F-W2-DKS"/>
+                            <constraint firstItem="Npd-mg-SFN" firstAttribute="top" secondItem="Nj3-vU-3WP" secondAttribute="bottom" constant="3" id="j6F-W2-DKS"/>
                             <constraint firstItem="EvH-ww-oGZ" firstAttribute="centerX" secondItem="0Yq-zt-TeV" secondAttribute="centerX" id="mhF-aR-1wt"/>
                             <constraint firstItem="Nj3-vU-3WP" firstAttribute="centerX" secondItem="0Yq-zt-TeV" secondAttribute="centerX" id="oGW-bW-cUV"/>
                             <constraint firstItem="Npd-mg-SFN" firstAttribute="bottom" secondItem="v3A-GA-6dY" secondAttribute="bottom" id="oRo-5D-mau"/>
@@ -300,8 +300,15 @@
                             <constraint firstItem="Npd-mg-SFN" firstAttribute="centerX" secondItem="0Yq-zt-TeV" secondAttribute="centerX" id="za4-7o-RrT"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="IX2-jl-Bfg"/>
+                    <navigationItem key="navigationItem" id="IX2-jl-Bfg">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="nt8-ek-wPx">
+                            <connections>
+                                <action selector="bookmarkButton:" destination="5V3-r1-FVH" id="QBp-hk-SaI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="bookmarkButton" destination="nt8-ek-wPx" id="yfs-6n-Hmm"/>
                         <outlet property="comorbidTableView" destination="NH1-JG-UWB" id="lGc-Uo-uPe"/>
                         <outlet property="definitionDetailLabel" destination="qRn-Po-ET9" id="xG0-ma-mng"/>
                         <outlet property="definitionLabel" destination="EvH-ww-oGZ" id="zAp-oc-GFx"/>
