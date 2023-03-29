@@ -32,6 +32,12 @@ class WordDefinitionVC: UIViewController {
         self.wordLabel.text = "WORD"
         self.wordLabel.font = .boldSystemFont(ofSize: 30)
         
+        // MARK: - SegmentedController
+        self.languageSegmentedControl.setTitle("Türkçe", forSegmentAt: 0)
+        self.languageSegmentedControl.setTitle("English", forSegmentAt: 1)
+        self.languageSegmentedControl.selectedSegmentTintColor = UIColor(red: 0x47, green: 0x2f, blue: 0x92)
+        self.languageSegmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        
     }
 }
 
