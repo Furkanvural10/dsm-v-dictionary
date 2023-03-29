@@ -265,6 +265,40 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="145" id="dxG-SS-fjk"/>
                                 </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="comorbidID1" rowHeight="32" id="vdq-PI-Of5" customClass="ComorbidTableViewCell" customModule="DsmDictionary" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="390" height="32"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vdq-PI-Of5" id="O2a-sh-brF">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="32"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sPD-F0-lqD">
+                                                    <rect key="frame" x="20" y="5.6666666666666679" width="49" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0tB-Lx-tS7">
+                                                    <rect key="frame" x="301" y="5.6666666666666679" width="49" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="sPD-F0-lqD" firstAttribute="centerY" secondItem="O2a-sh-brF" secondAttribute="centerY" id="Dun-fl-u8K"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="0tB-Lx-tS7" secondAttribute="trailing" constant="20" id="IeB-bj-fKp"/>
+                                                <constraint firstItem="0tB-Lx-tS7" firstAttribute="centerY" secondItem="O2a-sh-brF" secondAttribute="centerY" id="NdM-F5-xSk"/>
+                                                <constraint firstItem="sPD-F0-lqD" firstAttribute="leading" secondItem="O2a-sh-brF" secondAttribute="leadingMargin" id="Zi5-CU-xyM"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="comorbidLabel2" destination="0tB-Lx-tS7" id="eji-X7-vEG"/>
+                                            <outlet property="comorbirLabel1" destination="sPD-F0-lqD" id="4Av-SX-nbd"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="v3A-GA-6dY"/>

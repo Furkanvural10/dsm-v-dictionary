@@ -56,14 +56,13 @@ class WordDefinitionVC: UIViewController {
 extension WordDefinitionVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        var content = cell.defaultContentConfiguration()
-        content.text = "Deneme"
-        cell.contentConfiguration = content
+        let cell = self.comorbidTableView.dequeueReusableCell(withIdentifier: "comorbidID1", for: indexPath) as! ComorbidTableViewCell
+        cell.comorbirLabel1.text = "Deneme1"
+        cell.comorbidLabel2.text = "Deneme2"
         return cell
     }
     
