@@ -17,16 +17,32 @@ class WordDefinitionVC: UIViewController {
     @IBOutlet weak var dsmTitleLabel: UILabel!
     @IBOutlet weak var comorbidTableView: UITableView!
     @IBOutlet weak var dsmDetailTextView: UITextView!
-    
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
+    
+    var clickedBookmark = false
+    var comingWord: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configurationView()
+        getWordDetail(comingWord: comingWord!)
+        
+    }
+    
+    private func getWordDetail(comingWord: String){
         
     }
     
     @IBAction func bookmarkButton(_ sender: Any) {
-        
+        if !clickedBookmark{
+            bookmarkButton.image = UIImage(systemName: "bookmark.fill")
+            printContent("COREDATAYA KAYDET")
+            clickedBookmark = !clickedBookmark
+        }else{
+            bookmarkButton.image = UIImage(systemName: "bookmark")
+            clickedBookmark = !clickedBookmark
+            printContent("COREDATADAN SİL")
+        }
     }
     private func configurationView(){
         
