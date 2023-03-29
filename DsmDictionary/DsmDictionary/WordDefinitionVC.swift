@@ -10,17 +10,43 @@ import UIKit
 class WordDefinitionVC: UIViewController {
     
 
+    @IBOutlet weak var wordLabel: UILabel!
+    @IBOutlet weak var languageSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var definitionLabel: UILabel!
+    @IBOutlet weak var definitionDetailLabel: UILabel!
+    @IBOutlet weak var dsmTitleLabel: UILabel!
+    @IBOutlet weak var comorbidTableView: UITableView!
+    @IBOutlet weak var dsmDetailTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        configurationView()
         
     }
     
-    
+    private func configurationView(){
+        self.comorbidTableView.delegate = self
+        self.comorbidTableView.dataSource = self
+    }
+}
 
+extension WordDefinitionVC: UITableViewDelegate, UITableViewDataSource{
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+    }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        var content = cell.defaultContentConfiguration()
+        content.text = "Deneme"
+        cell.contentConfiguration = content
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Comorbid"
+    }
 }
 
 extension UIColor {
