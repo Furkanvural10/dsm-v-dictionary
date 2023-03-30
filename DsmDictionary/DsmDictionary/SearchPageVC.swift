@@ -19,6 +19,7 @@ class SearchPageVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var recentSearchWordTableView: UITableView!
     
+    @IBOutlet weak var segmentedController: UISegmentedControl!
     
     var clickedSearchBar = false
     var wordIDList = [UUID]()
@@ -116,6 +117,10 @@ class SearchPageVC: UIViewController {
     }
     private func configureSearchPageView(){
         
+        // MARK: - UISegmentedController
+        self.segmentedController.setTitle("Geçmiş", forSegmentAt: 0)
+        self.segmentedController.setTitle("Favoriler", forSegmentAt: 1)
+        
         // Hide backbutton
         navigationItem.hidesBackButton = true
         
@@ -187,10 +192,10 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
         performSegue(withIdentifier: "toDetailWordVC", sender: nil)
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-            let title = "En Son Arananlar"
-            return title
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//            let title = "En Son Arananlar"
+//            return title
+//    }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Sil") { action, view, handler in

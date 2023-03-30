@@ -117,7 +117,7 @@
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="6ql-Na-NHy">
-                                <rect key="frame" x="0.0" y="467" width="390" height="343"/>
+                                <rect key="frame" x="0.0" y="523" width="390" height="287"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily Word" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rj7-zo-ECm">
@@ -126,11 +126,20 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NEY-ks-bAL">
+                                <rect key="frame" x="20" y="472" width="350" height="32"/>
+                                <segments>
+                                    <segment title="First"/>
+                                    <segment title="Second"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UEX-To-fQt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6ql-Na-NHy" firstAttribute="leading" secondItem="UEX-To-fQt" secondAttribute="leading" id="0JO-FB-L6w"/>
+                            <constraint firstItem="NEY-ks-bAL" firstAttribute="centerX" secondItem="1eG-jx-p4Y" secondAttribute="centerX" id="0Xq-CK-haf"/>
+                            <constraint firstItem="UEX-To-fQt" firstAttribute="trailing" secondItem="NEY-ks-bAL" secondAttribute="trailing" constant="20" id="0n4-Oy-a3R"/>
                             <constraint firstItem="S6b-xK-7iW" firstAttribute="top" secondItem="FEv-wL-rlM" secondAttribute="bottom" constant="32" id="3rZ-f9-X8n"/>
                             <constraint firstItem="Rj7-zo-ECm" firstAttribute="leading" secondItem="UEX-To-fQt" secondAttribute="leading" constant="40" id="5cv-uS-El5"/>
                             <constraint firstItem="jYV-gw-zn5" firstAttribute="centerX" secondItem="1eG-jx-p4Y" secondAttribute="centerX" id="7aF-A7-Nc8"/>
@@ -138,16 +147,18 @@
                             <constraint firstItem="S6b-xK-7iW" firstAttribute="leading" secondItem="UEX-To-fQt" secondAttribute="leading" constant="20" id="DVR-bI-hOc"/>
                             <constraint firstItem="Rj7-zo-ECm" firstAttribute="top" secondItem="jYV-gw-zn5" secondAttribute="bottom" constant="35" id="HZD-Sr-zXp"/>
                             <constraint firstItem="UEX-To-fQt" firstAttribute="trailing" secondItem="S6b-xK-7iW" secondAttribute="trailing" constant="20" id="Ndi-jq-efd"/>
+                            <constraint firstItem="6ql-Na-NHy" firstAttribute="top" secondItem="NEY-ks-bAL" secondAttribute="bottom" constant="20" id="P1R-8O-RBY"/>
                             <constraint firstItem="UEX-To-fQt" firstAttribute="bottom" secondItem="6ql-Na-NHy" secondAttribute="bottom" id="QBr-He-AFb"/>
                             <constraint firstItem="UEX-To-fQt" firstAttribute="trailing" secondItem="jYV-gw-zn5" secondAttribute="trailing" constant="87" id="Qej-nO-ePQ"/>
                             <constraint firstItem="Rj7-zo-ECm" firstAttribute="centerX" secondItem="1eG-jx-p4Y" secondAttribute="centerX" id="RtS-eU-av2"/>
                             <constraint firstItem="UEX-To-fQt" firstAttribute="trailing" secondItem="Rj7-zo-ECm" secondAttribute="trailing" constant="40" id="YNX-nX-69K"/>
                             <constraint firstItem="UEX-To-fQt" firstAttribute="trailing" secondItem="FEv-wL-rlM" secondAttribute="trailing" constant="40" id="agh-0A-Si5"/>
+                            <constraint firstItem="NEY-ks-bAL" firstAttribute="leading" secondItem="UEX-To-fQt" secondAttribute="leading" constant="20" id="bkl-Og-0DL"/>
                             <constraint firstItem="FEv-wL-rlM" firstAttribute="leading" secondItem="UEX-To-fQt" secondAttribute="leading" constant="40" id="eIC-QQ-oAk"/>
                             <constraint firstItem="FEv-wL-rlM" firstAttribute="centerX" secondItem="1eG-jx-p4Y" secondAttribute="centerX" id="gDQ-AI-5E6"/>
                             <constraint firstItem="jYV-gw-zn5" firstAttribute="leading" secondItem="UEX-To-fQt" secondAttribute="leading" constant="87" id="gjh-gW-E5P"/>
+                            <constraint firstItem="NEY-ks-bAL" firstAttribute="top" secondItem="S6b-xK-7iW" secondAttribute="bottom" constant="5" id="hAS-8h-3Xx"/>
                             <constraint firstItem="FEv-wL-rlM" firstAttribute="top" secondItem="Rj7-zo-ECm" secondAttribute="bottom" constant="15" id="hjP-5T-Ynu"/>
-                            <constraint firstItem="6ql-Na-NHy" firstAttribute="top" secondItem="S6b-xK-7iW" secondAttribute="bottom" id="itg-y8-84t"/>
                             <constraint firstItem="jYV-gw-zn5" firstAttribute="top" secondItem="UEX-To-fQt" secondAttribute="top" constant="10" id="kUx-ec-niJ"/>
                             <constraint firstItem="S6b-xK-7iW" firstAttribute="centerX" secondItem="1eG-jx-p4Y" secondAttribute="centerX" id="yDb-Lh-kad"/>
                         </constraints>
@@ -159,6 +170,7 @@
                         <outlet property="dailyImageView" destination="jYV-gw-zn5" id="mGa-sX-yeZ"/>
                         <outlet property="recentSearchWordTableView" destination="6ql-Na-NHy" id="kiC-Vf-bfV"/>
                         <outlet property="searchBar" destination="S6b-xK-7iW" id="Hgs-9Z-kj3"/>
+                        <outlet property="segmentedController" destination="NEY-ks-bAL" id="8g3-PE-4l0"/>
                         <outlet property="wordDefinitionLabel" destination="FEv-wL-rlM" id="FNp-NI-RkH"/>
                         <outlet property="wordLabel" destination="Rj7-zo-ECm" id="AYM-Fx-tUI"/>
                         <segue destination="CSi-AB-xjk" kind="show" identifier="toDetailSearchVC" id="dLb-xg-jY2"/>
@@ -167,7 +179,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a3O-QT-aA5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1592.753623188406" y="2.6785714285714284"/>
+            <point key="canvasLocation" x="1592.3076923076922" y="2.1327014218009479"/>
         </scene>
         <!--Detail SearchVC-->
         <scene sceneID="2UM-H1-JFN">
@@ -321,7 +333,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ddd-tf-8jg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2028" y="833"/>
+            <point key="canvasLocation" x="1991" y="741"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Eb1-6r-O8k">
