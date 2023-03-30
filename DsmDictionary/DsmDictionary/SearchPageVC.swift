@@ -35,7 +35,7 @@ class SearchPageVC: UIViewController {
         super.viewDidLoad()
         configureSearchPageView()
         createUser()
-        getWordFromCoreData()
+        getLastWordFromCoredata()
         getDailyWord()
     }
     
@@ -51,31 +51,26 @@ class SearchPageVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if segmentedController.selectedSegmentIndex == 0 {
-            getWordFromCoreData()
+        if self.segmentedController.selectedSegmentIndex == 0 {
+            getLastWordFromCoredata()
         }else{
-            getWordFromCoreData()
+            getFavWordFromCoredata()
         }
     }
     
     @IBAction func selectSegmentedController(_ sender: Any) {
-        
-        if segmentedController.selectedSegmentIndex == 0 {
-            getWordFromCoreData()
+        if self.segmentedController.selectedSegmentIndex == 0 {
+            getLastWordFromCoredata()
+            self.recentSearchWordTableView.reloadData()
         }else{
-            getWordFromCoreData()
+            getFavWordFromCoredata()
+            self.recentSearchWordTableView.reloadData()
         }
+   
         
     }
     
-    @objc private func getWordFromCoreData(){
-        if self.segmentedController.selectedSegmentIndex == 0{
-            getLastWordFromCoredata()
-        }else{
-            getFavWordFromCoredata()
-            
-        }
-    }
+
     private func getLastWordFromCoredata(){
         
             
@@ -125,10 +120,11 @@ class SearchPageVC: UIViewController {
             for i in result as! [NSManagedObject]{
                 if let word = i.value(forKey: "favWord") as? String {
                     self.favoriteWordList.append(word)
+                    self.rowsToDisplay = favoriteWordList
                 }
                 if let id = i.value(forKey: "id") as? UUID {
                     self.favoriteWordIDList.append(id)
-                    self.rowsToDisplay = favoriteWordList
+                    
                 }
                 if let date = i.value(forKey: "createdAt") as? Date {
                     self.favoriteWordCreateAt.append(date)
@@ -140,7 +136,6 @@ class SearchPageVC: UIViewController {
             Alert.showCoreDataError(on: self)
         }
     }
-    
     private func deleteLastSearchWord(indexPath: Int){
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
@@ -160,7 +155,6 @@ class SearchPageVC: UIViewController {
                             wordIDList.remove(at: indexPath)
                             createdList.remove(at: indexPath)
                             self.recentSearchWordTableView.deleteRows(at: [IndexPath(row: indexPath, section: 0)], with: .left)
-                            
                             do {
                                 try context.save()
                             } catch  {
@@ -175,12 +169,48 @@ class SearchPageVC: UIViewController {
             Alert.showCoreDataError(on: self)
         }
     }
+    private func deleteFavoriteWord(indexPath: Int){
+        
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
+            let idString = favoriteWordIDList[indexPath].uuidString
+            
+            fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
+            fetchRequest.returnsObjectsAsFaults = false
+            
+            do {
+                let result = try context.fetch(fetchRequest)
+                if result.count > 0 {
+                    for i in result as! [NSManagedObject]{
+                        if let id = i.value(forKey: "id") as? UUID{
+                            if id == favoriteWordIDList[indexPath]{
+                                context.delete(i)
+                                favoriteWordList.remove(at: indexPath)
+                                favoriteWordIDList.remove(at: indexPath)
+                                favoriteWordCreateAt.remove(at: indexPath)
+                                self.recentSearchWordTableView.reloadData()
+                                do {
+                                    try context.save()
+                                    
+                                } catch  {
+                                    Alert.showCoreDataError(on: self)
+                                }
+                                break
+                            }
+                        }
+                    }
+                }
+            } catch  {
+                Alert.showCoreDataError(on: self)
+            }
+        
+    }
     private func configureSearchPageView(){
         
         // MARK: - UISegmentedController
         self.segmentedController.setTitle("Geçmiş", forSegmentAt: 0)
         self.segmentedController.setTitle("Favoriler", forSegmentAt: 1)
-        print("ındex: \(self.segmentedController.selectedSegmentIndex)")
+        
         
         // Hide backbutton
         navigationItem.hidesBackButton = true
@@ -239,14 +269,14 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
         
         let cell = UITableViewCell()
         var content = cell.defaultContentConfiguration()
-        content.text = self.rowsToDisplay[indexPath.row]
+        content.text = self.segmentedController.selectedSegmentIndex == 0 ? self.wordList[indexPath.row] : self.favoriteWordList[indexPath.row]
         cell.contentConfiguration = content
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        return wordList.count
-        return self.rowsToDisplay.count
+        return self.segmentedController.selectedSegmentIndex == 0 ? self.wordList.count : self.favoriteWordList.count
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
