@@ -51,17 +51,21 @@ class SearchPageVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getWordFromCoreData()
+        if segmentedController.selectedSegmentIndex == 0 {
+            getWordFromCoreData()
+        }else{
+            getWordFromCoreData()
+        }
     }
     
     @IBAction func selectSegmentedController(_ sender: Any) {
         
         if segmentedController.selectedSegmentIndex == 0 {
-            rowsToDisplay = self.wordList
+            getWordFromCoreData()
         }else{
-            rowsToDisplay = self.favoriteWordList
+            getWordFromCoreData()
         }
-        self.recentSearchWordTableView.reloadData()
+        
     }
     
     @objc private func getWordFromCoreData(){
@@ -69,6 +73,7 @@ class SearchPageVC: UIViewController {
             getLastWordFromCoredata()
         }else{
             getFavWordFromCoredata()
+            
         }
     }
     private func getLastWordFromCoredata(){
@@ -105,38 +110,35 @@ class SearchPageVC: UIViewController {
             }
         }
     private func getFavWordFromCoredata(){
+        favoriteWordList.removeAll(keepingCapacity: false)
+        favoriteWordIDList.removeAll(keepingCapacity: false)
         
-            
-            favoriteWordList.removeAll(keepingCapacity: false)
-            favoriteWordIDList.removeAll(keepingCapacity: false)
-            
-            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-            _ = NSEntityDescription.insertNewObject(forEntityName: "FavoriteWord", into: context)
-            
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
-            fetchRequest.returnsObjectsAsFaults = false
-            
-            do {
-                let result = try context.fetch(fetchRequest)
-                for i in result as! [NSManagedObject]{
-                    if let word = i.value(forKey: "favWord") as? String {
-                        self.favoriteWordList.append(word)
-                        self.rowsToDisplay = self.favoriteWordList
-                    }
-                    if let id = i.value(forKey: "id") as? UUID {
-                        self.favoriteWordIDList.append(id)
-                    }
-                    if let date = i.value(forKey: "createdAt") as? Date {
-                        self.favoriteWordCreateAt.append(date)
-                    }
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        _ = NSEntityDescription.insertNewObject(forEntityName: "FavoriteWord", into: context)
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            for i in result as! [NSManagedObject]{
+                if let word = i.value(forKey: "favWord") as? String {
+                    self.favoriteWordList.append(word)
                 }
-                self.recentSearchWordTableView.reloadData()
-                
-            } catch  {
-                Alert.showCoreDataError(on: self)
+                if let id = i.value(forKey: "id") as? UUID {
+                    self.favoriteWordIDList.append(id)
+                    self.rowsToDisplay = favoriteWordList
+                }
+                if let date = i.value(forKey: "createdAt") as? Date {
+                    self.favoriteWordCreateAt.append(date)
+                }
             }
-        
+            self.recentSearchWordTableView.reloadData()
+            
+        } catch  {
+            Alert.showCoreDataError(on: self)
+        }
     }
     
     private func deleteLastSearchWord(indexPath: Int){

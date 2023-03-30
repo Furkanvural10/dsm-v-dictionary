@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class WordDefinitionVC: UIViewController {
     
@@ -20,30 +21,64 @@ class WordDefinitionVC: UIViewController {
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     
     var clickedBookmark = false
-    var comingWord: String?
+    var comingWord = "Bellek"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configurationView()
-        getWordDetail(comingWord: comingWord!)
+        
         
     }
-    
-    private func getWordDetail(comingWord: String){
-        
-    }
+
     
     @IBAction func bookmarkButton(_ sender: Any) {
         if !clickedBookmark{
             bookmarkButton.image = UIImage(systemName: "bookmark.fill")
-            printContent("COREDATAYA KAYDET")
+            saveWordToCoredata(word: comingWord)
             clickedBookmark = !clickedBookmark
         }else{
             bookmarkButton.image = UIImage(systemName: "bookmark")
             clickedBookmark = !clickedBookmark
-            printContent("COREDATADAN SİL")
+            deleteWordFromCoredata(word: comingWord)
         }
     }
+    
+    private func saveWordToCoredata(word: String){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let favWord = NSEntityDescription.insertNewObject(forEntityName: "FavoriteWord", into: context)
+        
+        favWord.setValue(word, forKey: "favWord")
+        favWord.setValue(UUID(), forKey: "id")
+        favWord.setValue(Date(), forKey: "createdAt")
+        
+        do {
+            try context.save()
+            print("Kaydedilen kelime \(word)")
+            
+        } catch  {
+            Alert.showCoreDataError(on: self)
+        }
+    }
+    private func deleteWordFromCoredata(word: String){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
+        let deletedWord = word
+        fetchRequest.predicate = NSPredicate(format: "favWord = %@", deletedWord)
+        
+        do {
+            let result =  try context.fetch(fetchRequest)
+            for i in result as! [NSManagedObject]{
+                if let _ = i.value(forKey: "favWord") as? String{
+                    context.delete(i)
+                    break
+                }
+            }
+        } catch  {
+            Alert.showCoreDataError(on: self)
+        }
+    }
+    
+    
     private func configurationView(){
         
         //MARK: TableView
