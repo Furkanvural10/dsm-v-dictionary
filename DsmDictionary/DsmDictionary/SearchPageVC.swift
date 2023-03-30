@@ -25,14 +25,19 @@ class SearchPageVC: UIViewController {
     var wordIDList = [UUID]()
     var createdList = [Date]()
     var wordList = [String]()
-    var reverstedWordList = [String]()
+    var favoriteWordList = [String]()
+    var favoriteWordIDList = [UUID]()
+    var favoriteWordCreateAt = [Date]()
+    lazy var rowsToDisplay = [String]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchPageView()
         createUser()
-        getLastSearchWord()
+        getWordFromCoreData()
         getDailyWord()
+        favoriteWordList = ["Ali", "Veli","Ahmet"]
     }
     
     func createUser(){
@@ -47,10 +52,19 @@ class SearchPageVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getLastSearchWord()
+        getWordFromCoreData()
     }
     
-    @objc private func getLastSearchWord(){
+    @IBAction func selectSegmentedController(_ sender: Any) {
+        
+        if segmentedController.selectedSegmentIndex == 0 {
+            rowsToDisplay = self.wordList
+        }else{
+            rowsToDisplay = self.favoriteWordList
+        }
+        self.recentSearchWordTableView.reloadData()
+    }
+    @objc private func getWordFromCoreData(){
         
         wordList.removeAll(keepingCapacity: false)
         wordIDList.removeAll(keepingCapacity: false)
@@ -67,6 +81,7 @@ class SearchPageVC: UIViewController {
             for i in result as! [NSManagedObject]{
                 if let word = i.value(forKey: "word") as? String {
                     self.wordList.append(word)
+                    self.rowsToDisplay = self.wordList
                 }
                 if let id = i.value(forKey: "id") as? UUID {
                     self.wordIDList.append(id)
@@ -120,6 +135,7 @@ class SearchPageVC: UIViewController {
         // MARK: - UISegmentedController
         self.segmentedController.setTitle("Geçmiş", forSegmentAt: 0)
         self.segmentedController.setTitle("Favoriler", forSegmentAt: 1)
+        print("ındex: \(self.segmentedController.selectedSegmentIndex)")
         
         // Hide backbutton
         navigationItem.hidesBackButton = true
@@ -178,25 +194,21 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
         
         let cell = UITableViewCell()
         var content = cell.defaultContentConfiguration()
-        content.text = self.wordList[indexPath.row]
+        content.text = self.rowsToDisplay[indexPath.row]
         cell.contentConfiguration = content
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return wordList.count
+//        return wordList.count
+        return self.rowsToDisplay.count
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(wordList[indexPath.row])
         performSegue(withIdentifier: "toDetailWordVC", sender: nil)
     }
-    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//            let title = "En Son Arananlar"
-//            return title
-//    }
-    
+        
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Sil") { action, view, handler in
             self.deleteLastSearchWord(indexPath: indexPath.row)

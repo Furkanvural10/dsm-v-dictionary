@@ -132,6 +132,9 @@
                                     <segment title="First"/>
                                     <segment title="Second"/>
                                 </segments>
+                                <connections>
+                                    <action selector="selectSegmentedController:" destination="1aL-th-T1U" eventType="valueChanged" id="JcF-uN-6XT"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UEX-To-fQt"/>
