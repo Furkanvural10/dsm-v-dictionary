@@ -234,10 +234,11 @@ class SearchPageVC: UIViewController {
         self.searchBar.spellCheckingType = .no
         
         // MARK: - Labels
-        self.wordLabel.numberOfLines = 0
+        self.wordLabel.numberOfLines = 1
         self.wordLabel.textColor = .black
         self.wordLabel.textAlignment = .center
         self.wordLabel.font = .boldSystemFont(ofSize: 35)
+        self.wordLabel.adjustsFontSizeToFitWidth = true
         
         self.wordDefinitionLabel.textColor = .black.withAlphaComponent(0.6)
         self.wordDefinitionLabel.numberOfLines = 5
