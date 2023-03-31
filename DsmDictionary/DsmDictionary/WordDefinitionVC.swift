@@ -21,7 +21,7 @@ class WordDefinitionVC: UIViewController {
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     
     var clickedBookmark = false
-    var comingWord = "Gelişimsel"
+    var comingWord = "String"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +34,12 @@ class WordDefinitionVC: UIViewController {
     @IBAction func bookmarkButton(_ sender: Any) {
         if !clickedBookmark{
             bookmarkButton.image = UIImage(systemName: "bookmark.fill")
-            saveWordToCoredata(word: comingWord)
+//            saveWordToCoredata(word: comingWord!)
             clickedBookmark = !clickedBookmark
         }else{
             bookmarkButton.image = UIImage(systemName: "bookmark")
             clickedBookmark = !clickedBookmark
-            deleteWordFromCoredata(word: comingWord)
+//            deleteWordFromCoredata(word: comingWord!)
         }
     }
     
@@ -53,8 +53,6 @@ class WordDefinitionVC: UIViewController {
         
         do {
             try context.save()
-            print("Kaydedilen kelime \(word)")
-            
         } catch  {
             Alert.showCoreDataError(on: self)
         }
@@ -106,8 +104,8 @@ class WordDefinitionVC: UIViewController {
         self.definitionLabel.font = .boldSystemFont(ofSize: 20)
         
         //MARK: - DefinitionDetailLabel
-        self.definitionDetailLabel.text = "Schizophrenia is a serious mental disorder in which people interpret reality abnormally. Schizophrenia may result in some combination of hallucinations, delusions, and extremely disordered thinking and behavior that impairs daily functioning, and can be disabling."
-        self.definitionDetailLabel.font = .systemFont(ofSize: 15)
+        self.definitionDetailLabel.text = "Şizofreni, düşünce, duygu ve davranışları etkileyen ciddi bir zihinsel bozukluktur. Şizofreni, gerçeklik algısında değişikliklere ve bozulmalara neden olabilir. Şizofreni genellikle ergenlik ve genç erişkinlik döneminde başlar ve yaşam boyu devam edebilir. Şizofreni tedavisi, antipsikotik ilaçlar, psikoterapi, destekleyici tedaviler ve sosyal destek gibi farklı yaklaşımların bir kombinasyonunu içerebilir."
+        self.definitionDetailLabel.font = .systemFont(ofSize: 14)
         self.definitionDetailLabel.alpha = 0.6
         self.definitionDetailLabel.adjustsFontSizeToFitWidth = true
         
