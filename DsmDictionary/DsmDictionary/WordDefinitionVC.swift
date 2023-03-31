@@ -21,7 +21,7 @@ class WordDefinitionVC: UIViewController {
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     
     var clickedBookmark = false
-    var comingWord = "Bellek"
+    var comingWord = "Gelişimsel"
     
     override func viewDidLoad() {
         super.viewDidLoad()

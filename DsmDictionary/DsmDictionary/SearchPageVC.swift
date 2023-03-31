@@ -136,7 +136,7 @@ class SearchPageVC: UIViewController {
             Alert.showCoreDataError(on: self)
         }
     }
-    private func deleteLastSearchWord(indexPath: Int){
+    private func deleteLastSearchWord(indexPath: Int, indexPaths: IndexPath){
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
         let idString = wordIDList[indexPath].uuidString
@@ -154,7 +154,11 @@ class SearchPageVC: UIViewController {
                             wordList.remove(at: indexPath)
                             wordIDList.remove(at: indexPath)
                             createdList.remove(at: indexPath)
-                            self.recentSearchWordTableView.deleteRows(at: [IndexPath(row: indexPath, section: 0)], with: .left)
+//                            self.recentSearchWordTableView.deleteRows(at: [IndexPath(row: indexPath, section: 0)], with: .left)
+                            self.rowsToDisplay.remove(at: indexPath)
+//                            self.recentSearchWordTableView.reloadRows(at: [IndexPath(row: indexPath, section: 0)], with: .automatic)
+                            recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
+                            recentSearchWordTableView.reloadData()
                             do {
                                 try context.save()
                             } catch  {
@@ -169,7 +173,7 @@ class SearchPageVC: UIViewController {
             Alert.showCoreDataError(on: self)
         }
     }
-    private func deleteFavoriteWord(indexPath: Int){
+    private func deleteFavoriteWord(indexPath: Int, indexPaths: IndexPath){
         
             let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
@@ -188,7 +192,10 @@ class SearchPageVC: UIViewController {
                                 favoriteWordList.remove(at: indexPath)
                                 favoriteWordIDList.remove(at: indexPath)
                                 favoriteWordCreateAt.remove(at: indexPath)
-                                self.recentSearchWordTableView.reloadData()
+                                self.rowsToDisplay.remove(at: indexPath)
+//                                self.recentSearchWordTableView.deleteRows(at: [IndexPath(row: indexPath, section: 0)], with: .left)
+                                recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
+                                recentSearchWordTableView.reloadData()
                                 do {
                                     try context.save()
                                     
@@ -284,12 +291,16 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
         performSegue(withIdentifier: "toDetailWordVC", sender: nil)
     }
         
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "Sil") { action, view, handler in
-            self.deleteLastSearchWord(indexPath: indexPath.row)
-            handler(true)
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if self.segmentedController.selectedSegmentIndex == 0 {
+                deleteLastSearchWord(indexPath: indexPath.row, indexPaths: indexPath)
+                
+            }else{
+                deleteFavoriteWord(indexPath: indexPath.row, indexPaths: indexPath)
+                    //
+            }
         }
-        return UISwipeActionsConfiguration(actions: [delete])
     }
     
     
