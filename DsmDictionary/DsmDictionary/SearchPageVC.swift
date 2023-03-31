@@ -239,9 +239,10 @@ class SearchPageVC: UIViewController {
         self.wordLabel.textAlignment = .center
         self.wordLabel.font = .boldSystemFont(ofSize: 35)
         
-        self.wordDefinitionLabel.textColor = .black.withAlphaComponent(0.5)
-        self.wordDefinitionLabel.numberOfLines = 0
-        self.wordDefinitionLabel.textAlignment = .center
+        self.wordDefinitionLabel.textColor = .black.withAlphaComponent(0.6)
+        self.wordDefinitionLabel.numberOfLines = 5
+        self.wordDefinitionLabel.textAlignment = .left
+        self.wordDefinitionLabel.adjustsFontSizeToFitWidth = true
         self.wordDefinitionLabel.font = .systemFont(ofSize: 15)
     }
     private func getDailyWord(){
