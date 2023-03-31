@@ -15,6 +15,7 @@ class DetailSearchVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultTableView: UITableView!
     var searchResult = [String]()
+    var selectedWord: String?
     
     
     
@@ -97,7 +98,15 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         saveWordCoreData(choosedWord: searchResult[indexPath.row])
-        performSegue(withIdentifier: "toDetailWordVC", sender: nil)
+        self.selectedWord = searchResult[indexPath.row]
+        performSegue(withIdentifier: "toDetailWordVC", sender: selectedWord)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toDetailWordVC"{
+            let destinationVC = segue.destination as! WordDefinitionVC
+            destinationVC.comingWord = self.selectedWord
+        }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -114,8 +123,6 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
         lastSearchWord.setValue(Date(), forKey: "createdAt")
         do      {
             try context.save()
-            NotificationCenter.default.post(name: NSNotification.Name("newWordAdded"), object: nil)
-            
         }
         catch   { Alert.showCoreDataError(on: self) }
     }

@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import FirebaseFirestore
 
 class WordDefinitionVC: UIViewController {
     
@@ -21,11 +22,14 @@ class WordDefinitionVC: UIViewController {
     @IBOutlet weak var bookmarkButton: UIBarButtonItem!
     
     var clickedBookmark = false
-    var comingWord = "String"
+    var comingWord: String?
+    var comorbidList = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getWordDetail(word: comingWord!)
         configurationView()
+        
         
         
     }
@@ -34,12 +38,12 @@ class WordDefinitionVC: UIViewController {
     @IBAction func bookmarkButton(_ sender: Any) {
         if !clickedBookmark{
             bookmarkButton.image = UIImage(systemName: "bookmark.fill")
-//            saveWordToCoredata(word: comingWord!)
+            saveWordToCoredata(word: comingWord!)
             clickedBookmark = !clickedBookmark
         }else{
             bookmarkButton.image = UIImage(systemName: "bookmark")
             clickedBookmark = !clickedBookmark
-//            deleteWordFromCoredata(word: comingWord!)
+            deleteWordFromCoredata(word: comingWord!)
         }
     }
     
@@ -82,7 +86,7 @@ class WordDefinitionVC: UIViewController {
         //MARK: TableView
         self.comorbidTableView.delegate = self
         self.comorbidTableView.dataSource = self
-        self.comorbidTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+//        self.comorbidTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
 
         
         
@@ -104,9 +108,8 @@ class WordDefinitionVC: UIViewController {
         self.definitionLabel.font = .boldSystemFont(ofSize: 20)
         
         //MARK: - DefinitionDetailLabel
-        self.definitionDetailLabel.text = "Şizofreni, düşünce, duygu ve davranışları etkileyen ciddi bir zihinsel bozukluktur. Şizofreni, gerçeklik algısında değişikliklere ve bozulmalara neden olabilir. Şizofreni genellikle ergenlik ve genç erişkinlik döneminde başlar ve yaşam boyu devam edebilir. Şizofreni tedavisi, antipsikotik ilaçlar, psikoterapi, destekleyici tedaviler ve sosyal destek gibi farklı yaklaşımların bir kombinasyonunu içerebilir."
         self.definitionDetailLabel.font = .systemFont(ofSize: 14)
-        self.definitionDetailLabel.alpha = 0.6
+        self.definitionDetailLabel.alpha = 0.7
         self.definitionDetailLabel.adjustsFontSizeToFitWidth = true
         
         //MARK: - DSM-V Title
@@ -114,24 +117,59 @@ class WordDefinitionVC: UIViewController {
         self.dsmTitleLabel.font = .boldSystemFont(ofSize: 20)
         
         // MARK: - TextView
-        self.dsmDetailTextView.text = "Schizophrenia is a serious mental disorder in which people interpret reality abnormally. Schizophrenia may result in some combination of hallucinations, delusions, and extremely disordered thinking and behavior that impairs daily functioning, and can be disabling."
-        self.dsmDetailTextView.alpha = 0.6
+
+        self.dsmDetailTextView.alpha = 0.8
         self.dsmDetailTextView.isEditable = false
         
         
 
+    }
+    
+    func getWordDetail(word: String){
+        let database = Firestore.firestore()
+        let myCollection = database.collection("Dictionary").whereField("word", isEqualTo: word)
+        myCollection.addSnapshotListener { snapshot, error in
+            if error == nil {
+                for i in snapshot!.documents{
+                    if let comorbid1 = i.get("comorbid1") as? String{
+                        self.comorbidList.append(comorbid1)
+                    }
+                    if let comorbid2 = i.get("comorbid2") as? String{
+                        self.comorbidList.append(comorbid2)
+                    }
+                    if let comorbid3 = i.get("comorbid3") as? String{
+                        self.comorbidList.append(comorbid3)
+                    }
+                    if let word = i.get("word") as? String{
+                        self.wordLabel.text = word
+                    }
+                    if let wordDefinition = i.get("definition") as? String{
+                        self.definitionDetailLabel.text = wordDefinition
+                    }
+                    if let dsmV = i.get("dsmV") as? String{
+                        self.dsmDetailTextView.text = dsmV
+                    }
+                    self.comorbidTableView.reloadData()
+                    
+                    
+                    
+                }
+            }
+        }
     }
 }
 
 extension WordDefinitionVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        
+        return comorbidList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let text = "Şizofreni"
+        let text = self.comorbidList[indexPath.row]
+        
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor(red: 0x47, green: 0x2f, blue: 0x92),
             .font: UIFont.boldSystemFont(ofSize: 15),
@@ -143,10 +181,11 @@ extension WordDefinitionVC: UITableViewDelegate, UITableViewDataSource{
         content.attributedText = attributedString
         cell.contentConfiguration = content
         return cell
+       
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Comorbid - (5)"
+        return "Comorbid - (\(self.comorbidList.count))"
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -154,7 +193,7 @@ extension WordDefinitionVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 35
+        return 45
     }
     
     

@@ -29,6 +29,7 @@ class SearchPageVC: UIViewController {
     var favoriteWordIDList = [UUID]()
     var favoriteWordCreateAt = [Date]()
     lazy var rowsToDisplay = [String]()
+    var selectedWord: String?
     
     
     override func viewDidLoad() {
@@ -289,8 +290,15 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(wordList[indexPath.row])
+        self.selectedWord = rowsToDisplay[indexPath.row]
         performSegue(withIdentifier: "toDetailWordVC", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toDetailWordVC"{
+            let destinationVC = segue.destination as! WordDefinitionVC
+            destinationVC.comingWord = self.selectedWord
+        }
     }
         
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
