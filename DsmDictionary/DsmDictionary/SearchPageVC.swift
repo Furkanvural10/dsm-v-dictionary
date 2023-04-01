@@ -270,20 +270,19 @@ class SearchPageVC: UIViewController {
         }
     }
     private func checkLastOrFavSegment() -> Bool{
-        print("LİSTE: \(favoriteWordList)")
+        
         if self.segmentedController.selectedSegmentIndex == 0{
+            // Last Searchden kontrol edityorum
             if self.favoriteWordList.contains(self.selectedWord!){
-                print("İÇERİYOR")
-                print(self.favoriteWordList)
+                // Eğer last searchdeki kelime favoriteWordList'e varsa true dönder
                 return true
             }else{
-                print("İÇERMİYOR")
-                print(selectedWord!)
-                print(self.favoriteWordList)
+                // Yoksa listede false dönder
                 return false
                 
             }
         }else{
+            // Favoriden gittiği için her türlü true
             return true
         }
     }
@@ -319,7 +318,8 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
         }
         if segue.identifier == "toDetailSearchVC"{
             let destinationVC = segue.destination as! DetailSearchVC
-            destinationVC.favoriteList = self.rowsToDisplay
+            destinationVC.lastSearchList = self.rowsToDisplay
+            destinationVC.favoriteWordList = self.favoriteWordList
         }
     }
         

@@ -26,7 +26,7 @@ class WordDefinitionVC: UIViewController {
     var comorbidList = [String]()
     var comorbidOneList = [String]()
     var wordEN: String?
-    var isFavWord: Bool?
+    var isFavWord = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +40,7 @@ class WordDefinitionVC: UIViewController {
     
     @IBAction func bookmarkButton(_ sender: Any) {
             
-        if !self.isFavWord! {
+        if !self.isFavWord {
             if !clickedBookmark{
                 bookmarkButton.image = UIImage(systemName: "bookmark.fill")
                 saveWordToCoredata(word: comingWord!)
@@ -102,7 +102,7 @@ class WordDefinitionVC: UIViewController {
         
         
         // MARK: - Bookmark Button
-        if self.isFavWord! {
+        if self.isFavWord {
             self.bookmarkButton.image = UIImage(systemName: "bookmark.fill")
         }else{
             self.bookmarkButton.image = UIImage(systemName: "bookmark")
