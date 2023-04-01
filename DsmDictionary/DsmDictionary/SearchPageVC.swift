@@ -28,7 +28,6 @@ class SearchPageVC: UIViewController {
     var favoriteWordList = [String]()
     var favoriteWordIDList = [UUID]()
     var favoriteWordCreateAt = [Date]()
-    var uniqueFavWordList = [String]()
     lazy var rowsToDisplay = [String]()
     var selectedWord: String?
     
@@ -38,6 +37,7 @@ class SearchPageVC: UIViewController {
         configureSearchPageView()
         createUser()
         getLastWordFromCoredata()
+        getFavWordFromCoredata()
         getDailyWord()
     }
     
@@ -269,6 +269,24 @@ class SearchPageVC: UIViewController {
             }
         }
     }
+    private func checkLastOrFavSegment() -> Bool{
+        print("LİSTE: \(favoriteWordList)")
+        if self.segmentedController.selectedSegmentIndex == 0{
+            if self.favoriteWordList.contains(self.selectedWord!){
+                print("İÇERİYOR")
+                print(self.favoriteWordList)
+                return true
+            }else{
+                print("İÇERMİYOR")
+                print(selectedWord!)
+                print(self.favoriteWordList)
+                return false
+                
+            }
+        }else{
+            return true
+        }
+    }
 }
 
 extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
@@ -296,6 +314,8 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == "toDetailWordVC"{
             let destinationVC = segue.destination as! WordDefinitionVC
             destinationVC.comingWord = self.selectedWord
+            destinationVC.isFavWord = checkLastOrFavSegment()
+            
         }
         if segue.identifier == "toDetailSearchVC"{
             let destinationVC = segue.destination as! DetailSearchVC
