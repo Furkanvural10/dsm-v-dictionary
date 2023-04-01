@@ -89,7 +89,6 @@ class WordDefinitionVC: UIViewController {
         //MARK: TableView
         self.comorbidTableView.delegate = self
         self.comorbidTableView.dataSource = self
-//        self.comorbidTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
 
         
         

@@ -16,6 +16,7 @@ class DetailSearchVC: UIViewController {
     @IBOutlet weak var searchResultTableView: UITableView!
     var searchResult = [String]()
     var selectedWord: String?
+    var favoriteList = [String]()
     
     
     
@@ -115,15 +116,61 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func saveWordCoreData(choosedWord: String){
-        let context        = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let lastSearchWord = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
         
-        lastSearchWord.setValue(choosedWord, forKey: "word")
-        lastSearchWord.setValue(UUID(), forKey: "id")
-        lastSearchWord.setValue(Date(), forKey: "createdAt")
-        do      {
-            try context.save()
+        if self.favoriteList.contains(choosedWord){
+            
+            //MARK: - First Delete then Save
+            
+                let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
+                let word = choosedWord
+                
+                fetchRequest.predicate = NSPredicate(format: "word = %@", word)
+                fetchRequest.returnsObjectsAsFaults = false
+                
+                do {
+                    let result = try context.fetch(fetchRequest)
+                    if result.count > 0 {
+                        for i in result as! [NSManagedObject]{
+                            if let _ = i.value(forKey: "word") as? String{
+                                    context.delete(i)
+                                
+                                    do {
+                                        try context.save()
+                                    } catch  {
+                                        Alert.showCoreDataError(on: self)
+                                    }
+                                    break
+                            }
+                        }
+                    }
+                } catch  {
+                    Alert.showCoreDataError(on: self)
+                }
+            
+            let lastSearchWord = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
+            lastSearchWord.setValue(choosedWord, forKey: "word")
+            lastSearchWord.setValue(UUID(), forKey: "id")
+            lastSearchWord.setValue(Date(), forKey: "createdAt")
+            do      {
+                try context.save()
+                
+            }
+            catch   { Alert.showCoreDataError(on: self) }
+        }else{
+            
+            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+            let lastSearchWord = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
+            lastSearchWord.setValue(choosedWord, forKey: "word")
+            lastSearchWord.setValue(UUID(), forKey: "id")
+            lastSearchWord.setValue(Date(), forKey: "createdAt")
+            do      {
+                try context.save()
+                
+            }
+            catch   { Alert.showCoreDataError(on: self) }
         }
-        catch   { Alert.showCoreDataError(on: self) }
+        
+        
     }
 }

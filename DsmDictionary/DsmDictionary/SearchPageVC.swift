@@ -155,9 +155,7 @@ class SearchPageVC: UIViewController {
                             wordList.remove(at: indexPath)
                             wordIDList.remove(at: indexPath)
                             createdList.remove(at: indexPath)
-//                            self.recentSearchWordTableView.deleteRows(at: [IndexPath(row: indexPath, section: 0)], with: .left)
                             self.rowsToDisplay.remove(at: indexPath)
-//                            self.recentSearchWordTableView.reloadRows(at: [IndexPath(row: indexPath, section: 0)], with: .automatic)
                             recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
                             recentSearchWordTableView.reloadData()
                             do {
@@ -299,6 +297,10 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
             let destinationVC = segue.destination as! WordDefinitionVC
             destinationVC.comingWord = self.selectedWord
         }
+        if segue.identifier == "toDetailSearchVC"{
+            let destinationVC = segue.destination as! DetailSearchVC
+            destinationVC.favoriteList = self.rowsToDisplay
+        }
     }
         
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -323,4 +325,8 @@ extension SearchPageVC: UISearchBarDelegate {
         performSegue(withIdentifier: "toDetailSearchVC", sender: nil)
         return true
     }
+    
+    
+    
+    
 }
