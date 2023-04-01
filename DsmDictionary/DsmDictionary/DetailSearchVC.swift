@@ -134,6 +134,9 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
                         for i in result as! [NSManagedObject]{
                             if let _ = i.value(forKey: "word") as? String{
                                     context.delete(i)
+                                if let index = self.favoriteList.firstIndex(of: "Osman"){
+                                    self.favoriteList.remove(at: index)
+                                }
                                 
                                     do {
                                         try context.save()
@@ -154,6 +157,7 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
             lastSearchWord.setValue(Date(), forKey: "createdAt")
             do      {
                 try context.save()
+                self.favoriteList.append(choosedWord)
                 
             }
             catch   { Alert.showCoreDataError(on: self) }
@@ -164,8 +168,9 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
             lastSearchWord.setValue(choosedWord, forKey: "word")
             lastSearchWord.setValue(UUID(), forKey: "id")
             lastSearchWord.setValue(Date(), forKey: "createdAt")
-            do      {
+            do{
                 try context.save()
+                self.favoriteList.append(choosedWord)
                 
             }
             catch   { Alert.showCoreDataError(on: self) }

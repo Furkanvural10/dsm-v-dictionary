@@ -28,6 +28,7 @@ class SearchPageVC: UIViewController {
     var favoriteWordList = [String]()
     var favoriteWordIDList = [UUID]()
     var favoriteWordCreateAt = [Date]()
+    var uniqueFavWordList = [String]()
     lazy var rowsToDisplay = [String]()
     var selectedWord: String?
     
@@ -192,7 +193,6 @@ class SearchPageVC: UIViewController {
                                 favoriteWordIDList.remove(at: indexPath)
                                 favoriteWordCreateAt.remove(at: indexPath)
                                 self.rowsToDisplay.remove(at: indexPath)
-//                                self.recentSearchWordTableView.deleteRows(at: [IndexPath(row: indexPath, section: 0)], with: .left)
                                 recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
                                 recentSearchWordTableView.reloadData()
                                 do {
