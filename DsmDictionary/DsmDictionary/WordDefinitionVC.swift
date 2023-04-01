@@ -24,10 +24,12 @@ class WordDefinitionVC: UIViewController {
     var clickedBookmark = false
     var comingWord: String?
     var comorbidList = [String]()
+    var comorbidOneList = [String]()
+    var wordEN: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getWordDetail(word: comingWord!)
+        getWordDetail(word: comingWord!, collection: "Dictionary")
         configurationView()
         
         
@@ -81,6 +83,7 @@ class WordDefinitionVC: UIViewController {
     }
     
     
+    
     private func configurationView(){
         
         //MARK: TableView
@@ -125,21 +128,24 @@ class WordDefinitionVC: UIViewController {
 
     }
     
-    func getWordDetail(word: String){
+    func getWordDetail(word: String, collection: String){
+        
+        self.comorbidList.removeAll(keepingCapacity: false)
+        self.comorbidOneList.removeAll(keepingCapacity: false)
+        
         let database = Firestore.firestore()
-        let myCollection = database.collection("Dictionary").whereField("word", isEqualTo: word)
+        let myCollection = database.collection(collection).whereField("word", isEqualTo: word)
         myCollection.addSnapshotListener { snapshot, error in
             if error == nil {
                 for i in snapshot!.documents{
-                    if let comorbid1 = i.get("comorbid1") as? String{
-                        self.comorbidList.append(comorbid1)
+                    if let comorbid = i.get("comorbid") as? String{
+                        self.comorbidList.append(comorbid)
+                        for i in self.comorbidList{
+                            let element = i.components(separatedBy: ", ")
+                            self.comorbidOneList.append(contentsOf: element)
+                        }
                     }
-                    if let comorbid2 = i.get("comorbid2") as? String{
-                        self.comorbidList.append(comorbid2)
-                    }
-                    if let comorbid3 = i.get("comorbid3") as? String{
-                        self.comorbidList.append(comorbid3)
-                    }
+                    
                     if let word = i.get("word") as? String{
                         self.wordLabel.text = word
                     }
@@ -149,6 +155,9 @@ class WordDefinitionVC: UIViewController {
                     if let dsmV = i.get("dsmV") as? String{
                         self.dsmDetailTextView.text = dsmV
                     }
+                    if let wordEnglish = i.get("wordEN") as? String{
+                        self.wordEN = wordEnglish
+                    }
                     self.comorbidTableView.reloadData()
                     
                     
@@ -157,18 +166,27 @@ class WordDefinitionVC: UIViewController {
             }
         }
     }
+    
+    @IBAction func languageSegmentedControl(_ sender: Any) {
+        if self.languageSegmentedControl.selectedSegmentIndex == 0 {
+            getWordDetail(word: self.comingWord!, collection: "Dictionary")
+        }else{
+            getWordDetail(word: self.wordEN!, collection: "DictionaryEN")
+        }
+    }
+    
 }
 
 extension WordDefinitionVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return comorbidList.count
+        return comorbidOneList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let text = self.comorbidList[indexPath.row]
+        let text = self.comorbidOneList[indexPath.row]
         
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor(red: 0x47, green: 0x2f, blue: 0x92),
@@ -185,7 +203,7 @@ extension WordDefinitionVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Comorbid - (\(self.comorbidList.count))"
+        return "Comorbid - (\(self.comorbidOneList.count))"
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
