@@ -99,6 +99,7 @@ class WordDefinitionVC: UIViewController {
         // MARK: - Word
         self.wordLabel.text = "WORD"
         self.wordLabel.font = .boldSystemFont(ofSize: 30)
+        self.wordLabel.adjustsFontSizeToFitWidth = true
         
         // MARK: - SegmentedController
         self.languageSegmentedControl.setTitle("Türkçe", forSegmentAt: 0)
