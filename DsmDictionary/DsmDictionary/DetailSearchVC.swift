@@ -38,7 +38,7 @@ class DetailSearchVC: UIViewController {
         
         //MARK: - SearchBar
         self.searchBar.delegate = self
-        self.searchBar.returnKeyType = .done
+        self.searchBar.returnKeyType = .search
         self.searchBar.searchBarStyle = .minimal
         self.searchBar.placeholder = "Kelime Ara"
         
@@ -47,7 +47,6 @@ class DetailSearchVC: UIViewController {
     }
     private func checkSelectedWordExistInFavList() -> Bool{
         if favoriteWordList.contains(selectedWord!){
-            // Kelime listede var o zaman true gönder
             return true
         }else{
             return false
@@ -87,7 +86,13 @@ extension DetailSearchVC: UISearchBarDelegate {
 
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.view.endEditing(true)
+        if self.searchResult.isEmpty{
+            self.searchResult.append("Sonuç Bulunamadı")
+            self.searchResultTableView.reloadData()
+            self.view.endEditing(true)
+        }else{
+            self.view.endEditing(true)
+        }
     }
     
 }
@@ -119,7 +124,6 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == "toDetailWordVC"{
             let destinationVC = segue.destination as! WordDefinitionVC
             destinationVC.comingWord = self.selectedWord
-            // Check favorite listede var mı o eleman
             destinationVC.isFavWord = checkSelectedWordExistInFavList()
         }
     }

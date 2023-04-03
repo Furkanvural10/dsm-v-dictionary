@@ -300,7 +300,7 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return wordList.count
+        
         return self.segmentedController.selectedSegmentIndex == 0 ? self.wordList.count : self.favoriteWordList.count
     }
 
