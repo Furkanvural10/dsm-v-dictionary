@@ -44,11 +44,11 @@ class SearchPageVC: UIViewController {
     func createUser(){
         let currentUser = Auth.auth().currentUser
         if currentUser == nil {
-                Auth.auth().signInAnonymously { data, error in
-                    if error != nil {
-                        Alert.showFirebaseSignInError(on: self, message: error!.localizedDescription)
-                    }
+            Auth.auth().signInAnonymously { data, error in
+                if error != nil {
+                    Alert.showFirebaseSignInError(on: self, message: error!.localizedDescription)
                 }
+            }
         }
     }
     
@@ -68,44 +68,23 @@ class SearchPageVC: UIViewController {
             getFavWordFromCoredata()
             self.recentSearchWordTableView.reloadData()
         }
-   
+        
         
     }
     
-
+    
     private func getLastWordFromCoredata(){
+        wordList.removeAll(keepingCapacity: false)
+        wordIDList.removeAll(keepingCapacity: false)
         
-            
-            wordList.removeAll(keepingCapacity: false)
-            wordIDList.removeAll(keepingCapacity: false)
-            
-            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-            _ = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
-            
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
-            fetchRequest.returnsObjectsAsFaults = false
-            
-            do {
-                let result = try context.fetch(fetchRequest)
-                for i in result as! [NSManagedObject]{
-                    if let word = i.value(forKey: "word") as? String {
-                        self.wordList.append(word)
-                        self.rowsToDisplay = self.wordList
-                    }
-                    if let id = i.value(forKey: "id") as? UUID {
-                        self.wordIDList.append(id)
-                    }
-                    if let date = i.value(forKey: "createdAt") as? Date {
-                        self.createdList.append(date)
-                    }
-                }
-                self.recentSearchWordTableView.reloadData()
-                
-            } catch  {
-                Alert.showCoreDataError(on: self)
-            }
-        }
+        let result = CoreDataFunctions.getLastWordFromCoreData(vc: self)
+        self.wordList = result.0
+        self.rowsToDisplay = self.wordList
+        self.wordIDList = result.1
+        self.createdList = result.2
+        self.recentSearchWordTableView.reloadData()
+    }
+    
     private func getFavWordFromCoredata(){
         favoriteWordList.removeAll(keepingCapacity: false)
         favoriteWordIDList.removeAll(keepingCapacity: false)
@@ -175,40 +154,40 @@ class SearchPageVC: UIViewController {
     }
     private func deleteFavoriteWord(indexPath: Int, indexPaths: IndexPath){
         
-            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
-            let idString = favoriteWordIDList[indexPath].uuidString
-            
-            fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
-            fetchRequest.returnsObjectsAsFaults = false
-            
-            do {
-                let result = try context.fetch(fetchRequest)
-                if result.count > 0 {
-                    for i in result as! [NSManagedObject]{
-                        if let id = i.value(forKey: "id") as? UUID{
-                            if id == favoriteWordIDList[indexPath]{
-                                context.delete(i)
-                                favoriteWordList.remove(at: indexPath)
-                                favoriteWordIDList.remove(at: indexPath)
-                                favoriteWordCreateAt.remove(at: indexPath)
-                                self.rowsToDisplay.remove(at: indexPath)
-                                recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
-                                recentSearchWordTableView.reloadData()
-                                do {
-                                    try context.save()
-                                    
-                                } catch  {
-                                    Alert.showCoreDataError(on: self)
-                                }
-                                break
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
+        let idString = favoriteWordIDList[indexPath].uuidString
+        
+        fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            if result.count > 0 {
+                for i in result as! [NSManagedObject]{
+                    if let id = i.value(forKey: "id") as? UUID{
+                        if id == favoriteWordIDList[indexPath]{
+                            context.delete(i)
+                            favoriteWordList.remove(at: indexPath)
+                            favoriteWordIDList.remove(at: indexPath)
+                            favoriteWordCreateAt.remove(at: indexPath)
+                            self.rowsToDisplay.remove(at: indexPath)
+                            recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
+                            recentSearchWordTableView.reloadData()
+                            do {
+                                try context.save()
+                                
+                            } catch  {
+                                Alert.showCoreDataError(on: self)
                             }
+                            break
                         }
                     }
                 }
-            } catch  {
-                Alert.showCoreDataError(on: self)
             }
+        } catch  {
+            Alert.showCoreDataError(on: self)
+        }
         
     }
     private func configureSearchPageView(){
@@ -216,8 +195,7 @@ class SearchPageVC: UIViewController {
         // MARK: - UISegmentedController
         self.segmentedController.setTitle("Geçmiş", forSegmentAt: 0)
         self.segmentedController.setTitle("Favoriler", forSegmentAt: 1)
-        
-        
+
         // Hide backbutton
         navigationItem.hidesBackButton = true
         
@@ -247,42 +225,36 @@ class SearchPageVC: UIViewController {
     }
     private func getDailyWord(){
         let database = Firestore.firestore()
-        let myCollection = database.collection("DailyWord")
+        let myCollection = database.collection(FirebaseText.wordCollection)
         myCollection.addSnapshotListener { snapshot, error in
             if error == nil {
                 for i in snapshot!.documents{
-                    if let word = i.get("dailyWord") as? String{
+                    if let word = i.get(FirebaseText.dailyWord) as? String{
                         self.wordLabel.text = word
                     }
-                    if let wordDefinition = i.get("definition") as? String{
+                    if let wordDefinition = i.get(FirebaseText.definition) as? String{
                         self.wordDefinitionLabel.text = wordDefinition
                     }
-                    if let imageUrl = i.get("imageUrl") as? String{
+                    if let imageUrl = i.get(FirebaseText.imageUrlText) as? String{
                         if let url = URL(string: imageUrl) {
                             self.dailyImageView.kf.setImage(with: url)
                         }
                     }
                 }
             }else{
-                let message = "Bir hata oluştur lütfen tekrar deneyin"
-                Alert.showFirebaseReadDataError(on: self, message: message )
+                Alert.showFirebaseReadDataError(on: self, message: Text.errorMessage )
             }
         }
     }
     private func checkLastOrFavSegment() -> Bool{
         
         if self.segmentedController.selectedSegmentIndex == 0{
-            // Last Searchden kontrol edityorum
             if self.favoriteWordList.contains(self.selectedWord!){
-                // Eğer last searchdeki kelime favoriteWordList'e varsa true dönder
                 return true
             }else{
-                // Yoksa listede false dönder
                 return false
-                
             }
         }else{
-            // Favoriden gittiği için her türlü true
             return true
         }
     }
@@ -303,7 +275,7 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
         
         return self.segmentedController.selectedSegmentIndex == 0 ? self.wordList.count : self.favoriteWordList.count
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedWord = rowsToDisplay[indexPath.row]
         performSegue(withIdentifier: "toDetailWordVC", sender: nil)
@@ -322,7 +294,7 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
             destinationVC.favoriteWordList = self.favoriteWordList
         }
     }
-        
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             if self.segmentedController.selectedSegmentIndex == 0 {
@@ -330,23 +302,15 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
                 
             }else{
                 deleteFavoriteWord(indexPath: indexPath.row, indexPaths: indexPath)
-                    //
             }
         }
     }
-    
-    
 }
 
 extension SearchPageVC: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        // MARK: - Go To Detail Search Page
         performSegue(withIdentifier: "toDetailSearchVC", sender: nil)
         return true
     }
-    
-    
-    
-    
 }

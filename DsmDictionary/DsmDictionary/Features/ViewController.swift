@@ -18,8 +18,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var thirdDefinitionLabel: UILabel!
     @IBOutlet weak var getStartedButton: UIButton!
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         checkPass()
@@ -38,138 +36,109 @@ class ViewController: UIViewController {
     
     private func getOnboardingTextAndImage(){
         let database = Firestore.firestore()
-        let collection = database.collection("Onboarding")
+        let collection = database.collection(FirebaseText.onboardingCollection)
         collection.addSnapshotListener { snapshot, error in
             if error == nil {
                 for document in snapshot!.documents {
-                    if let wordDefinition1 = document.get("definition1") as? String {
+                    if let wordDefinition1 = document.get(FirebaseText.onboardingDefinition1) as? String {
                         self.firstDefinitionLabel.text = wordDefinition1
                     }
-                    if let wordDefinition2 = document.get("definition2") as? String {
+                    if let wordDefinition2 = document.get(FirebaseText.onboardingDefinition2) as? String {
                         self.secondDefinitionLabel.text = wordDefinition2
                     }
-                    if let wordDefinition3 = document.get("definition3") as? String {
+                    if let wordDefinition3 = document.get(FirebaseText.onboardingDefinition3) as? String {
                         self.thirdDefinitionLabel.text = wordDefinition3
                     }
-                    if let imageUrl = document.get("imageUrl") as? String{
+                    if let imageUrl = document.get(FirebaseText.imageUrlText) as? String{
                         if let url = URL(string: imageUrl){
                             self.onboardingImage.kf.setImage(with: url)
                         }
                     }
                 }
             }else{
-                Alert.showFirebaseReadDataError(on: self, message: "Hata oluştu. Lütfen tekrar deneyin")
+                Alert.showFirebaseReadDataError(on: self, message: Text.errorMessage)
             }
         }
     }
     
     func configurationView(){
-        
-        
-        // MARK: - Button configuration
-        let buttonTitle = "Başla"
-        getStartedButton.setTitle(buttonTitle, for: .normal)
+
+        getStartedButton.setTitle(Text.onboardingButtonTitle, for: .normal)
         getStartedButton.tintColor = .black
-        
-        // MARK: - ImageView configuration
-        onboardingImage.image = UIImage(named: "Onboarding")
+        onboardingImage.image = Images.onboardingImage
         onboardingImage.contentMode = .scaleAspectFit
         onboardingImage.clipsToBounds = true
     }
 
-    @IBAction func getStartedButton(_ sender: Any) {
-        endOnboardingPage()
-        
-        
-    }
+    @IBAction func getStartedButton(_ sender: Any) {endOnboardingPage()}
     
     func startAnimation(){
         
-        // MARK: - Constant
-        let duration = 1.5
-        let delay: TimeInterval = 0
-        let option = UIView.AnimationOptions.curveEaseOut
+        let duration             = 1.5
+        let delay: TimeInterval  = 0
+        let option               = UIView.AnimationOptions.curveEaseOut
          
-        onboardingImage.alpha = 0
-        firstDefinitionLabel.alpha = 0
-        secondDefinitionLabel.alpha = 0
-        thirdDefinitionLabel.alpha = 0
-        getStartedButton.alpha = 0
-        
+        onboardingImage.alpha       = Alpha.alpha0
+        firstDefinitionLabel.alpha  = Alpha.alpha0
+        secondDefinitionLabel.alpha = Alpha.alpha0
+        thirdDefinitionLabel.alpha  = Alpha.alpha0
+        getStartedButton.alpha      = Alpha.alpha0
         
         UIView.animate(withDuration: duration, delay: delay, options: option) {
-            // Showing Image
-            self.onboardingImage.alpha = 1
+            
+            self.onboardingImage.alpha = Alpha.alpha
         } completion: { _ in
             UIView.animate(withDuration: duration, delay: delay, options: option) {
-                // Showing first definition
-                self.firstDefinitionLabel.alpha = 1
+                self.firstDefinitionLabel.alpha = Alpha.alpha
             } completion: { _ in
                 UIView.animate(withDuration: duration, delay: delay, options: option) {
-                    self.secondDefinitionLabel.alpha = 1
+                    self.secondDefinitionLabel.alpha = Alpha.alpha
                 } completion: { _ in
                     UIView.animate(withDuration: duration, delay: delay, options: option) {
-                        self.thirdDefinitionLabel.alpha = 1
+                        self.thirdDefinitionLabel.alpha = Alpha.alpha
                     } completion: { _ in
                         UIView.animate(withDuration: duration, delay: delay, options: option) {
-                            self.getStartedButton.alpha = 1
+                            self.getStartedButton.alpha = Alpha.alpha
                         }
                     }
-
                 }
-
             }
-
         }
-
     }
     
     func endOnboardingPage(){
         
         UserDefaults.standard.setValue(true, forKey: "finishedOnboarding")
         self.getStartedButton.isMultipleTouchEnabled = false
-        // MARK: - Constant
+        
         let duration = 0.8
         let buttonDuration = 1.0
         let delay: TimeInterval = 0
         let option = UIView.AnimationOptions.curveEaseOut
         let translationX: CGFloat = 500
         let translationY: CGFloat = 0
-         
-        
-        
+
         UIView.animate(withDuration: duration, delay: delay, options: option) {
-            // Nonvisible button
-            self.getStartedButton.alpha = 0
-            
+
+            self.getStartedButton.alpha = Alpha.alpha0
         } completion: { _ in
             UIView.animate(withDuration: duration, delay: delay) {
-                // Disappear first definition and imageView
-                self.onboardingImage.alpha = 0
+                self.onboardingImage.alpha = Alpha.alpha0
                 self.firstDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
-                
             } completion: { _ in
                 UIView.animate(withDuration: duration, delay: delay) {
-                    // Disappear second definition
                     self.secondDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
                 } completion: { _ in
                     UIView.animate(withDuration: duration, delay: delay) {
-                        // Disappear third definition
                         self.thirdDefinitionLabel.transform = CGAffineTransform(translationX: translationX, y: translationY)
                     } completion: { _ in
-                        // Go To SearchPage
                         UIView.animate(withDuration: buttonDuration, delay: delay, options: option) {
                             self.performSegue(withIdentifier: "toSearchPageVC", sender: nil)
                         }
                     }
-
                 }
-
             }
-
         }
-        
     }
-    
 }
 

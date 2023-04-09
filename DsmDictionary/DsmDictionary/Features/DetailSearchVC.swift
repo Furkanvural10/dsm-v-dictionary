@@ -25,7 +25,7 @@ class DetailSearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDetailSearchPageView()
-        print("FAVORİ LİSTE: \(favoriteWordList)")
+        
     }
     private func configureDetailSearchPageView(){
         //MARK: - TableView
@@ -134,8 +134,7 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func saveWordCoreData(choosedWord: String){
-        print("LAST SEARCH LİST: \(choosedWord)")
-        print("LAST SEARCH LİST: \(self.lastSearchList)")
+        
         if self.lastSearchList.contains(choosedWord){
 
             //MARK: - First Delete then Save

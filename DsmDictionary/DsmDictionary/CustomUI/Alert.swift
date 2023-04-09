@@ -31,7 +31,7 @@ struct Alert {
         showBasicAlert(on: vc, with: "Hata", message: message)
     }
     
-    static func showBasicAlertMessage(on vc: UIViewController, message: String){
-        showBasicAlertMessage(on: vc, message: message)
+    static func showBasicAlertMessage(on vc: UIViewController, title: String , message: String){
+        showBasicAlert(on: vc, with: title, message: message)
     }
 }
