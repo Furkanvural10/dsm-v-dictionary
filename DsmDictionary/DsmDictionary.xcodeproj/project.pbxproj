@@ -12,6 +12,7 @@
 		041576B729E3446200CBA586 /* Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576B629E3446200CBA586 /* Alpha.swift */; };
 		041576B929E3452F00CBA586 /* FirebaseText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576B829E3452F00CBA586 /* FirebaseText.swift */; };
 		041576BE29E34EA200CBA586 /* CoreDataFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576BD29E34EA200CBA586 /* CoreDataFunctions.swift */; };
+		041576C129E3627800CBA586 /* GetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576C029E3627800CBA586 /* GetData.swift */; };
 		047EC40729C654C0009EA1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC40629C654C0009EA1D9 /* AppDelegate.swift */; };
 		047EC40929C654C0009EA1D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC40829C654C0009EA1D9 /* SceneDelegate.swift */; };
 		047EC40B29C654C0009EA1D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC40A29C654C0009EA1D9 /* ViewController.swift */; };
@@ -33,6 +34,7 @@
 		041576B629E3446200CBA586 /* Alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alpha.swift; sourceTree = "<group>"; };
 		041576B829E3452F00CBA586 /* FirebaseText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseText.swift; sourceTree = "<group>"; };
 		041576BD29E34EA200CBA586 /* CoreDataFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFunctions.swift; sourceTree = "<group>"; };
+		041576C029E3627800CBA586 /* GetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetData.swift; sourceTree = "<group>"; };
 		047EC40329C654C0009EA1D9 /* DsmDictionary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DsmDictionary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047EC40629C654C0009EA1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		047EC40829C654C0009EA1D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +104,14 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		041576BF29E3626000CBA586 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				041576C029E3627800CBA586 /* GetData.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 		047EC3FA29C654C0009EA1D9 = {
 			isa = PBXGroup;
 			children = (
@@ -123,6 +133,7 @@
 		047EC40529C654C0009EA1D9 /* DsmDictionary */ = {
 			isa = PBXGroup;
 			children = (
+				041576BF29E3626000CBA586 /* Firebase */,
 				041576BC29E34DC300CBA586 /* CoreData */,
 				041576BB29E34D8200CBA586 /* CustomUI */,
 				041576BA29E34D6000CBA586 /* Features */,
@@ -284,6 +295,7 @@
 				047EC44529CCD582009EA1D9 /* Alert.swift in Sources */,
 				041576B729E3446200CBA586 /* Alpha.swift in Sources */,
 				0494C2CF29D33746000D71A7 /* WordDefinitionVC.swift in Sources */,
+				041576C129E3627800CBA586 /* GetData.swift in Sources */,
 				041576B929E3452F00CBA586 /* FirebaseText.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

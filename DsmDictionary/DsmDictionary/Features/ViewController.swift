@@ -62,7 +62,9 @@ class ViewController: UIViewController {
     }
     
     func configurationView(){
-
+        firstDefinitionLabel.textColor = .black
+        secondDefinitionLabel.textColor = .black
+        thirdDefinitionLabel.textColor = .black
         getStartedButton.setTitle(Text.onboardingButtonTitle, for: .normal)
         getStartedButton.tintColor = .black
         onboardingImage.image = Images.onboardingImage

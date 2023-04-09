@@ -224,31 +224,19 @@ class SearchPageVC: UIViewController {
         self.wordDefinitionLabel.font = .systemFont(ofSize: 15)
     }
     private func getDailyWord(){
-        let database = Firestore.firestore()
-        let myCollection = database.collection(FirebaseText.wordCollection)
-        myCollection.addSnapshotListener { snapshot, error in
-            if error == nil {
-                for i in snapshot!.documents{
-                    if let word = i.get(FirebaseText.dailyWord) as? String{
-                        self.wordLabel.text = word
-                    }
-                    if let wordDefinition = i.get(FirebaseText.definition) as? String{
-                        self.wordDefinitionLabel.text = wordDefinition
-                    }
-                    if let imageUrl = i.get(FirebaseText.imageUrlText) as? String{
-                        if let url = URL(string: imageUrl) {
-                            self.dailyImageView.kf.setImage(with: url)
-                        }
-                    }
-                }
-            }else{
-                Alert.showFirebaseReadDataError(on: self, message: Text.errorMessage )
+        
+            GetDataFromFirebase.getDailyWord(vc: self) { word, definition, url in
+            self.wordLabel.text = word
+            self.wordDefinitionLabel.text = definition
+            if let url = URL(string: url) {
+                self.dailyImageView.kf.setImage(with: url)
             }
         }
     }
+    
     private func checkLastOrFavSegment() -> Bool{
-        
-        if self.segmentedController.selectedSegmentIndex == 0{
+        let index = self.segmentedController.selectedSegmentIndex
+        if index == 0{
             if self.favoriteWordList.contains(self.selectedWord!){
                 return true
             }else{
@@ -263,17 +251,17 @@ class SearchPageVC: UIViewController {
 extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+        let index = self.segmentedController.selectedSegmentIndex
         let cell = UITableViewCell()
         var content = cell.defaultContentConfiguration()
-        content.text = self.segmentedController.selectedSegmentIndex == 0 ? self.wordList[indexPath.row] : self.favoriteWordList[indexPath.row]
+        content.text = index == 0 ? self.wordList[indexPath.row] : self.favoriteWordList[indexPath.row]
         cell.contentConfiguration = content
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return self.segmentedController.selectedSegmentIndex == 0 ? self.wordList.count : self.favoriteWordList.count
+        let index = self.segmentedController.selectedSegmentIndex
+        return index == 0 ? self.wordList.count : self.favoriteWordList.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -296,8 +284,9 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let index = self.segmentedController.selectedSegmentIndex
         if editingStyle == .delete {
-            if self.segmentedController.selectedSegmentIndex == 0 {
+            if index == 0 {
                 deleteLastSearchWord(indexPath: indexPath.row, indexPaths: indexPath)
                 
             }else{
