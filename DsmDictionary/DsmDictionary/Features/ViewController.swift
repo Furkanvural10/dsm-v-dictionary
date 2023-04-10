@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  DsmDictionary
-//
-//  Created by furkan vural on 18.03.2023.
-//
-
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
@@ -35,28 +28,12 @@ class ViewController: UIViewController {
     }
     
     private func getOnboardingTextAndImage(){
-        let database = Firestore.firestore()
-        let collection = database.collection(FirebaseText.onboardingCollection)
-        collection.addSnapshotListener { snapshot, error in
-            if error == nil {
-                for document in snapshot!.documents {
-                    if let wordDefinition1 = document.get(FirebaseText.onboardingDefinition1) as? String {
-                        self.firstDefinitionLabel.text = wordDefinition1
-                    }
-                    if let wordDefinition2 = document.get(FirebaseText.onboardingDefinition2) as? String {
-                        self.secondDefinitionLabel.text = wordDefinition2
-                    }
-                    if let wordDefinition3 = document.get(FirebaseText.onboardingDefinition3) as? String {
-                        self.thirdDefinitionLabel.text = wordDefinition3
-                    }
-                    if let imageUrl = document.get(FirebaseText.imageUrlText) as? String{
-                        if let url = URL(string: imageUrl){
-                            self.onboardingImage.kf.setImage(with: url)
-                        }
-                    }
-                }
-            }else{
-                Alert.showFirebaseReadDataError(on: self, message: Text.errorMessage)
+        GetDataFromFirebase.getOnboardingTextAndImage(vc: self) { firstLabel, secondLabel, thirdLabel, imageUrl in
+            self.firstDefinitionLabel.text = firstLabel
+            self.secondDefinitionLabel.text = secondLabel
+            self.thirdDefinitionLabel.text = thirdLabel
+            if let url = URL(string: imageUrl){
+                self.onboardingImage.kf.setImage(with: url)
             }
         }
     }

@@ -11,5 +11,9 @@ struct Text {
     
     static let onboardingButtonTitle = "Başla"
     static let errorMessage = "Bir hata oluştu. Lütfen tekrar deneyin."
+    static let segmentedControllerTitle1 = "Geçmiş"
+    static let segmentedControllerTitle2 = "Favoriler"
+    static let searchBarTitle = "Ara"
+    
 }
 

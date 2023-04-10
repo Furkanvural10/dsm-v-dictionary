@@ -1,10 +1,3 @@
-//
-//  SearchPageVC.swift
-//  DsmDictionary
-//
-//  Created by furkan vural on 21.03.2023.
-//
-
 import UIKit
 import CoreData
 import FirebaseAuth
@@ -44,7 +37,7 @@ class SearchPageVC: UIViewController {
     func createUser(){CreateUsers.createUser(vc: self)}
     
     override func viewWillAppear(_ animated: Bool) {
-        var index = self.segmentedController.selectedSegmentIndex
+        let index = self.segmentedController.selectedSegmentIndex
         if index == 0 {
             getLastWordFromCoredata()
         }else{
@@ -53,7 +46,7 @@ class SearchPageVC: UIViewController {
     }
     
     @IBAction func selectSegmentedController(_ sender: Any) {
-        var index = self.segmentedController.selectedSegmentIndex
+        let index = self.segmentedController.selectedSegmentIndex
         if index == 0 {
             getLastWordFromCoredata()
             self.recentSearchWordTableView.reloadData()
@@ -61,15 +54,12 @@ class SearchPageVC: UIViewController {
             getFavWordFromCoredata()
             self.recentSearchWordTableView.reloadData()
         }
-        
-        
     }
     
-    
     private func getLastWordFromCoredata(){
+        
         wordList.removeAll(keepingCapacity: false)
         wordIDList.removeAll(keepingCapacity: false)
-        
         let result = CoreDataFunctions.getLastWordFromCoreData(vc: self)
         self.wordList = result.0
         self.rowsToDisplay = self.wordList
@@ -79,9 +69,9 @@ class SearchPageVC: UIViewController {
     }
     
     private func getFavWordFromCoredata(){
+        
         favoriteWordList.removeAll(keepingCapacity: false)
         favoriteWordIDList.removeAll(keepingCapacity: false)
-        
         let result = CoreDataFunctions.getFavWordFromCoreData(vc: self)
         self.favoriteWordList = result.0
         self.rowsToDisplay = favoriteWordList
@@ -103,7 +93,7 @@ class SearchPageVC: UIViewController {
         }
     }
     private func deleteFavoriteWord(indexPath: Int, indexPaths: IndexPath){
-    
+        
         let result = CoreDataFunctions.deleteFavoriteWord(vc: self, indexPath: indexPath, indexPaths: indexPaths, favWordListID: favoriteWordIDList)
         if result{
             favoriteWordList.remove(at: indexPath)
@@ -113,40 +103,39 @@ class SearchPageVC: UIViewController {
             recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
             recentSearchWordTableView.reloadData()
         }
-        
     }
     private func configureSearchPageView(){
         
         // MARK: - UISegmentedController
-        self.segmentedController.setTitle("Geçmiş", forSegmentAt: 0)
-        self.segmentedController.setTitle("Favoriler", forSegmentAt: 1)
+        self.segmentedController.setTitle(Text.segmentedControllerTitle1, forSegmentAt: 0)
+        self.segmentedController.setTitle(Text.segmentedControllerTitle2, forSegmentAt: 1)
 
         // Hide backbutton
         navigationItem.hidesBackButton = true
         
         // MARK: - ImageView
-        self.dailyImageView.image = UIImage(named: "Onboarding")
+        self.dailyImageView.image = Images.onboardingImage
         
         // MARK: - Delegate
         self.recentSearchWordTableView.delegate = self
         self.recentSearchWordTableView.dataSource = self
         
         self.searchBar.delegate = self
-        self.searchBar.placeholder = "Ara"
+        self.searchBar.placeholder = Text.searchBarTitle
         self.searchBar.spellCheckingType = .no
         
         // MARK: - Labels
         self.wordLabel.numberOfLines = 1
         self.wordLabel.textColor = .black
         self.wordLabel.textAlignment = .center
-        self.wordLabel.font = .boldSystemFont(ofSize: 35)
+        self.wordLabel.font = Font.BoldFontSize.boldFont14
         self.wordLabel.adjustsFontSizeToFitWidth = true
         
         self.wordDefinitionLabel.textColor = .black.withAlphaComponent(0.6)
         self.wordDefinitionLabel.numberOfLines = 5
         self.wordDefinitionLabel.textAlignment = .left
         self.wordDefinitionLabel.adjustsFontSizeToFitWidth = true
-        self.wordDefinitionLabel.font = .systemFont(ofSize: 15)
+        self.wordDefinitionLabel.font = Font.FontSize.fontSize15
     }
     private func getDailyWord(){
         
@@ -158,7 +147,6 @@ class SearchPageVC: UIViewController {
             }
         }
     }
-    
     private func checkLastOrFavSegment() -> Bool{
         let index = self.segmentedController.selectedSegmentIndex
         if index == 0{
@@ -220,7 +208,6 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-
 extension SearchPageVC: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
