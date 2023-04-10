@@ -44,4 +44,108 @@ struct CoreDataFunctions {
         return (wordList, wordIDList, createdList)
     }
     
+    static func getFavWordFromCoreData(vc: UIViewController) -> ([String], [UUID], [Date]){
+        var favoriteWordList     = [String]()
+        var favoriteWordIDList   = [UUID]()
+        var favoriteWordCreateAt = [Date]()
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        _ = NSEntityDescription.insertNewObject(forEntityName: "FavoriteWord", into: context)
+        
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            for i in result as! [NSManagedObject]{
+                if let word = i.value(forKey: "favWord") as? String {
+                    favoriteWordList.append(word)
+                    
+                }
+                if let id = i.value(forKey: "id") as? UUID {
+                    favoriteWordIDList.append(id)
+                    
+                }
+                if let date = i.value(forKey: "createdAt") as? Date {
+                    favoriteWordCreateAt.append(date)
+                }
+            }
+            
+            
+        } catch  {
+            Alert.showCoreDataError(on: vc)
+        }
+        return (favoriteWordList, favoriteWordIDList, favoriteWordCreateAt)
+    }
+    
+    static func deleteLastSearchWord(vc: UIViewController, indexPath: Int, indexPaths: IndexPath, wordIDList: [UUID]) -> Bool{
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
+        let idString = wordIDList[indexPath].uuidString
+        
+        fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            if result.count > 0 {
+                for i in result as! [NSManagedObject]{
+                    if let id = i.value(forKey: "id") as? UUID{
+                        if id == wordIDList[indexPath]{
+                            context.delete(i)
+                            
+                            do {
+                                try context.save()
+                            } catch  {
+                                Alert.showCoreDataError(on: vc)
+                                return false
+                            }
+                            break
+                        }
+                    }
+                }
+            }
+        } catch  {
+            Alert.showCoreDataError(on: vc)
+            return false
+        }
+        return true
+    }
+    
+    static func deleteFavoriteWord(vc: UIViewController, indexPath: Int, indexPaths: IndexPath, favWordListID: [UUID]) -> Bool{
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
+        let idString = favWordListID[indexPath].uuidString
+        
+        fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
+        fetchRequest.returnsObjectsAsFaults = false
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            if result.count > 0 {
+                for i in result as! [NSManagedObject]{
+                    if let id = i.value(forKey: "id") as? UUID{
+                        if id == favWordListID[indexPath]{
+                            context.delete(i)
+                            
+                            do {
+                                try context.save()
+                                
+                            } catch  {
+                                Alert.showCoreDataError(on: vc)
+                                return false
+                            }
+                            break
+                        }
+                    }
+                }
+            }
+        } catch  {
+            Alert.showCoreDataError(on: vc)
+            return false
+        }
+        return true
+    }
 }

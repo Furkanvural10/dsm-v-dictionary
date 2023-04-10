@@ -41,19 +41,11 @@ class SearchPageVC: UIViewController {
         getDailyWord()
     }
     
-    func createUser(){
-        let currentUser = Auth.auth().currentUser
-        if currentUser == nil {
-            Auth.auth().signInAnonymously { data, error in
-                if error != nil {
-                    Alert.showFirebaseSignInError(on: self, message: error!.localizedDescription)
-                }
-            }
-        }
-    }
+    func createUser(){CreateUsers.createUser(vc: self)}
     
     override func viewWillAppear(_ animated: Bool) {
-        if self.segmentedController.selectedSegmentIndex == 0 {
+        var index = self.segmentedController.selectedSegmentIndex
+        if index == 0 {
             getLastWordFromCoredata()
         }else{
             getFavWordFromCoredata()
@@ -61,7 +53,8 @@ class SearchPageVC: UIViewController {
     }
     
     @IBAction func selectSegmentedController(_ sender: Any) {
-        if self.segmentedController.selectedSegmentIndex == 0 {
+        var index = self.segmentedController.selectedSegmentIndex
+        if index == 0 {
             getLastWordFromCoredata()
             self.recentSearchWordTableView.reloadData()
         }else{
@@ -89,104 +82,36 @@ class SearchPageVC: UIViewController {
         favoriteWordList.removeAll(keepingCapacity: false)
         favoriteWordIDList.removeAll(keepingCapacity: false)
         
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        _ = NSEntityDescription.insertNewObject(forEntityName: "FavoriteWord", into: context)
+        let result = CoreDataFunctions.getFavWordFromCoreData(vc: self)
+        self.favoriteWordList = result.0
+        self.rowsToDisplay = favoriteWordList
+        self.favoriteWordIDList = result.1
+        self.favoriteWordCreateAt = result.2
+        self.recentSearchWordTableView.reloadData()
         
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        do {
-            let result = try context.fetch(fetchRequest)
-            for i in result as! [NSManagedObject]{
-                if let word = i.value(forKey: "favWord") as? String {
-                    self.favoriteWordList.append(word)
-                    self.rowsToDisplay = favoriteWordList
-                }
-                if let id = i.value(forKey: "id") as? UUID {
-                    self.favoriteWordIDList.append(id)
-                    
-                }
-                if let date = i.value(forKey: "createdAt") as? Date {
-                    self.favoriteWordCreateAt.append(date)
-                }
-            }
-            self.recentSearchWordTableView.reloadData()
-            
-        } catch  {
-            Alert.showCoreDataError(on: self)
-        }
     }
     private func deleteLastSearchWord(indexPath: Int, indexPaths: IndexPath){
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
-        let idString = wordIDList[indexPath].uuidString
         
-        fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        do {
-            let result = try context.fetch(fetchRequest)
-            if result.count > 0 {
-                for i in result as! [NSManagedObject]{
-                    if let id = i.value(forKey: "id") as? UUID{
-                        if id == wordIDList[indexPath]{
-                            context.delete(i)
-                            wordList.remove(at: indexPath)
-                            wordIDList.remove(at: indexPath)
-                            createdList.remove(at: indexPath)
-                            self.rowsToDisplay.remove(at: indexPath)
-                            recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
-                            recentSearchWordTableView.reloadData()
-                            do {
-                                try context.save()
-                            } catch  {
-                                Alert.showCoreDataError(on: self)
-                            }
-                            break
-                        }
-                    }
-                }
-            }
-        } catch  {
-            Alert.showCoreDataError(on: self)
+        let result = CoreDataFunctions.deleteLastSearchWord(vc: self, indexPath: indexPath, indexPaths: indexPaths, wordIDList: wordIDList)
+        if result{
+            wordList.remove(at: indexPath)
+            wordIDList.remove(at: indexPath)
+            createdList.remove(at: indexPath)
+            self.rowsToDisplay.remove(at: indexPath)
+            recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
+            recentSearchWordTableView.reloadData()
         }
     }
     private func deleteFavoriteWord(indexPath: Int, indexPaths: IndexPath){
-        
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteWord")
-        let idString = favoriteWordIDList[indexPath].uuidString
-        
-        fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
-        fetchRequest.returnsObjectsAsFaults = false
-        
-        do {
-            let result = try context.fetch(fetchRequest)
-            if result.count > 0 {
-                for i in result as! [NSManagedObject]{
-                    if let id = i.value(forKey: "id") as? UUID{
-                        if id == favoriteWordIDList[indexPath]{
-                            context.delete(i)
-                            favoriteWordList.remove(at: indexPath)
-                            favoriteWordIDList.remove(at: indexPath)
-                            favoriteWordCreateAt.remove(at: indexPath)
-                            self.rowsToDisplay.remove(at: indexPath)
-                            recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
-                            recentSearchWordTableView.reloadData()
-                            do {
-                                try context.save()
-                                
-                            } catch  {
-                                Alert.showCoreDataError(on: self)
-                            }
-                            break
-                        }
-                    }
-                }
-            }
-        } catch  {
-            Alert.showCoreDataError(on: self)
+    
+        let result = CoreDataFunctions.deleteFavoriteWord(vc: self, indexPath: indexPath, indexPaths: indexPaths, favWordListID: favoriteWordIDList)
+        if result{
+            favoriteWordList.remove(at: indexPath)
+            favoriteWordIDList.remove(at: indexPath)
+            favoriteWordCreateAt.remove(at: indexPath)
+            self.rowsToDisplay.remove(at: indexPath)
+            recentSearchWordTableView.deleteRows(at: [indexPaths], with: .none)
+            recentSearchWordTableView.reloadData()
         }
         
     }
