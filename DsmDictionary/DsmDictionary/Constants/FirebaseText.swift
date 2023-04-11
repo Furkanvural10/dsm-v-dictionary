@@ -18,4 +18,7 @@ struct FirebaseText {
     static let dailyWord              = "dailyWord"
     static let definition             = "definition"
     
+    static let searchCollection = "Dictionary"
+    static let word = "word"
+    
 }

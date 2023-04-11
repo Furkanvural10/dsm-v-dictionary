@@ -17,7 +17,6 @@ class ViewController: UIViewController {
         configurationView()
         startAnimation()
         getOnboardingTextAndImage()
-        
     }
     
     func checkPass(){

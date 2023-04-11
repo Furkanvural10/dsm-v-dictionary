@@ -1,10 +1,3 @@
-//
-//  DetailSearchVC.swift
-//  DsmDictionary
-//
-//  Created by furkan vural on 23.03.2023.
-//
-
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
@@ -18,10 +11,7 @@ class DetailSearchVC: UIViewController {
     var selectedWord: String?
     var lastSearchList = [String]()
     var favoriteWordList = [String]()
-    
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDetailSearchPageView()
@@ -40,7 +30,7 @@ class DetailSearchVC: UIViewController {
         self.searchBar.delegate = self
         self.searchBar.returnKeyType = .search
         self.searchBar.searchBarStyle = .minimal
-        self.searchBar.placeholder = "Kelime Ara"
+        self.searchBar.placeholder = Text.searchWord
         
         // Open keyboard
         searchBar.becomeFirstResponder()
@@ -52,49 +42,26 @@ class DetailSearchVC: UIViewController {
             return false
         }
     }
-    
-    
-    
 }
 
 extension DetailSearchVC: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let db = Firestore.firestore()
-        let myCollection = db.collection("Dictionary")
-        if searchText != ""{
-        myCollection.whereField("word", isGreaterThanOrEqualTo: searchText)
-                .whereField("word", isLessThan: searchText + "\u{f8ff}").limit(to: 10)
-                    .addSnapshotListener { (querySnapshot, error) in
-            if let error = error {
-                Alert.showFirebaseReadDataError(on: self, message: error.localizedDescription)
-            } else {
-                self.searchResult.removeAll()
-                for document in querySnapshot!.documents {
-                    if let result = document.get("word") as? String {
-                        self.searchResult.append(result)
-                    }
-                }
-                self.searchResultTableView.reloadData()
-            }
-        }
-
-        }else{
-            self.searchResult.removeAll()
+        Searching.searchWord(vc: self, searchText: searchText) { searchResultList in
+            self.searchResult = searchResultList
             self.searchResultTableView.reloadData()
-        }
-
-    }
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if self.searchResult.isEmpty{
-            self.searchResult.append("Sonuç Bulunamadı")
-            self.searchResultTableView.reloadData()
-            self.view.endEditing(true)
-        }else{
-            self.view.endEditing(true)
         }
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        if self.searchResult.isEmpty{
+            self.searchResult.append(Text.notFound)
+            self.searchResultTableView.reloadData()
+            self.view.endEditing(true)
+        }else{
+            self.view.endEditing(true)
+        }
+    }
 }
 
 extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
@@ -115,7 +82,6 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         saveWordCoreData(choosedWord: searchResult[indexPath.row])
-        
         self.selectedWord = searchResult[indexPath.row]
         performSegue(withIdentifier: "toDetailWordVC", sender: selectedWord)
     }
@@ -128,72 +94,23 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let header = "Sonuçlar"
-        return header
-    }
-    
     func saveWordCoreData(choosedWord: String){
         
         if self.lastSearchList.contains(choosedWord){
-
-            //MARK: - First Delete then Save
-
-                let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "LastSearchWord")
-                let word = choosedWord
-
-                fetchRequest.predicate = NSPredicate(format: "word = %@", word)
-                fetchRequest.returnsObjectsAsFaults = false
-
-                do {
-                    let result = try context.fetch(fetchRequest)
-                    if result.count > 0 {
-                        for i in result as! [NSManagedObject]{
-                            if let _ = i.value(forKey: "word") as? String{
-                                    context.delete(i)
-                                if let index = self.lastSearchList.firstIndex(of: choosedWord){
-                                    self.lastSearchList.remove(at: index)
-                                }
-
-                                    do {
-                                        try context.save()
-                                    } catch  {
-                                        Alert.showCoreDataError(on: self)
-                                    }
-                                    break
-                            }
-                        }
+            CoreDataFunctions.deleteFirsThenSaveWordCoreData(vc: self, choosedWord: choosedWord) { bool in
+                if bool{
+                    if let index = self.lastSearchList.firstIndex(of: choosedWord){
+                        self.lastSearchList.remove(at: index)
                     }
-                } catch  {
-                    Alert.showCoreDataError(on: self)
+                    self.lastSearchList.append(choosedWord)
                 }
-
-            let lastSearchWord = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
-            lastSearchWord.setValue(choosedWord, forKey: "word")
-            lastSearchWord.setValue(UUID(), forKey: "id")
-            lastSearchWord.setValue(Date(), forKey: "createdAt")
-            do      {
-                try context.save()
-                self.lastSearchList.append(choosedWord)
-
             }
-            catch   { Alert.showCoreDataError(on: self) }
         }else{
-
-            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-            let lastSearchWord = NSEntityDescription.insertNewObject(forEntityName: "LastSearchWord", into: context)
-            lastSearchWord.setValue(choosedWord, forKey: "word")
-            lastSearchWord.setValue(UUID(), forKey: "id")
-            lastSearchWord.setValue(Date(), forKey: "createdAt")
-            do{
-                try context.save()
-                self.lastSearchList.append(choosedWord)
-
+            CoreDataFunctions.saveWordToCoreData(vc: self, choosedWord: choosedWord) { bool in
+                if bool {
+                    self.lastSearchList.append(choosedWord)
+                }
             }
-            catch   { Alert.showCoreDataError(on: self) }
         }
-
-
     }
 }
