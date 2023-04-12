@@ -6,23 +6,22 @@ import Kingfisher
 
 class SearchPageVC: UIViewController {
     
-    @IBOutlet weak var dailyImageView: UIImageView!
-    @IBOutlet weak var wordLabel: UILabel!
-    @IBOutlet weak var wordDefinitionLabel: UILabel!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var recentSearchWordTableView: UITableView!
-    
-    @IBOutlet weak var segmentedController: UISegmentedControl!
+    @IBOutlet weak var dailyImageView            : UIImageView!
+    @IBOutlet weak var wordLabel                 : UILabel!
+    @IBOutlet weak var wordDefinitionLabel       : UILabel!
+    @IBOutlet weak var searchBar                 : UISearchBar!
+    @IBOutlet weak var recentSearchWordTableView : UITableView!
+    @IBOutlet weak var segmentedController       : UISegmentedControl!
     
     var clickedSearchBar = false
-    var wordIDList = [UUID]()
-    var createdList = [Date]()
-    var wordList = [String]()
-    var favoriteWordList = [String]()
-    var favoriteWordIDList = [UUID]()
+    var wordIDList         	 = [UUID]()
+    var createdList        	 = [Date]()
+    var wordList           	 = [String]()
+    var favoriteWordList   	 = [String]()
+    var favoriteWordIDList 	 = [UUID]()
     var favoriteWordCreateAt = [Date]()
-    lazy var rowsToDisplay = [String]()
-    var selectedWord: String?
+    lazy var rowsToDisplay   = [String]()
+    var selectedWord         : String?
     
     
     override func viewDidLoad() {
@@ -60,11 +59,11 @@ class SearchPageVC: UIViewController {
         
         wordList.removeAll(keepingCapacity: false)
         wordIDList.removeAll(keepingCapacity: false)
-        let result = CoreDataFunctions.getLastWordFromCoreData(vc: self)
-        self.wordList = result.0
-        self.rowsToDisplay = self.wordList
-        self.wordIDList = result.1
-        self.createdList = result.2
+        let result          = CoreDataFunctions.getLastWordFromCoreData(vc: self)
+        self.wordList       = result.0
+        self.rowsToDisplay  = self.wordList
+        self.wordIDList     = result.1
+        self.createdList    = result.2
         self.recentSearchWordTableView.reloadData()
     }
     
@@ -72,10 +71,10 @@ class SearchPageVC: UIViewController {
         
         favoriteWordList.removeAll(keepingCapacity: false)
         favoriteWordIDList.removeAll(keepingCapacity: false)
-        let result = CoreDataFunctions.getFavWordFromCoreData(vc: self)
-        self.favoriteWordList = result.0
-        self.rowsToDisplay = favoriteWordList
-        self.favoriteWordIDList = result.1
+        let result                = CoreDataFunctions.getFavWordFromCoreData(vc: self)
+        self.favoriteWordList     = result.0
+        self.rowsToDisplay        = favoriteWordList
+        self.favoriteWordIDList   = result.1
         self.favoriteWordCreateAt = result.2
         self.recentSearchWordTableView.reloadData()
         
@@ -120,29 +119,29 @@ class SearchPageVC: UIViewController {
         self.recentSearchWordTableView.delegate = self
         self.recentSearchWordTableView.dataSource = self
         
-        self.searchBar.delegate = self
-        self.searchBar.placeholder = Text.searchBarTitle
+        self.searchBar.delegate          = self
+        self.searchBar.placeholder       = Text.searchBarTitle
         self.searchBar.spellCheckingType = .no
         
         // MARK: - Labels
-        self.wordLabel.numberOfLines = 1
-        self.wordLabel.textColor = .black
-        self.wordLabel.textAlignment = .center
-        self.wordLabel.font = Font.BoldFontSize.boldFont14
-        self.wordLabel.adjustsFontSizeToFitWidth = true
-        
-        self.wordDefinitionLabel.textColor = .black.withAlphaComponent(0.6)
-        self.wordDefinitionLabel.numberOfLines = 5
-        self.wordDefinitionLabel.textAlignment = .left
+        self.wordLabel.numberOfLines             		   = 1
+        self.wordLabel.textColor                 		   = .black
+        self.wordLabel.textAlignment             		   = .center
+        self.wordLabel.font                      		   = Font.BoldFontSize.boldFont30
+        self.wordLabel.adjustsFontSizeToFitWidth 		   = true
+
+        self.wordDefinitionLabel.textColor                 = .black.withAlphaComponent(0.6)
+        self.wordDefinitionLabel.numberOfLines             = 5
+        self.wordDefinitionLabel.textAlignment             = .left
         self.wordDefinitionLabel.adjustsFontSizeToFitWidth = true
-        self.wordDefinitionLabel.font = Font.FontSize.fontSize15
+        self.wordDefinitionLabel.font                      = Font.FontSize.fontSize15
     }
     private func getDailyWord(){
         
-            GetDataFromFirebase.getDailyWord(vc: self) { word, definition, url in
-            self.wordLabel.text = word
-            self.wordDefinitionLabel.text = definition
-            if let url = URL(string: url) {
+            GetDailyWordDataFromFirebase.getDailyWord(vc: self) { word in
+                self.wordLabel.text           = word.dailyWord
+                self.wordDefinitionLabel.text = word.definition
+                if let url                    = URL(string: word.imageUrl) {
                 self.dailyImageView.kf.setImage(with: url)
             }
         }
@@ -164,10 +163,10 @@ class SearchPageVC: UIViewController {
 extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let index = self.segmentedController.selectedSegmentIndex
-        let cell = UITableViewCell()
-        var content = cell.defaultContentConfiguration()
-        content.text = index == 0 ? self.wordList[indexPath.row] : self.favoriteWordList[indexPath.row]
+        let index                 = self.segmentedController.selectedSegmentIndex
+        let cell                  = UITableViewCell()
+        var content               = cell.defaultContentConfiguration()
+        content.text              = index == 0 ? self.wordList[indexPath.row] : self.favoriteWordList[indexPath.row]
         cell.contentConfiguration = content
         return cell
     }
@@ -179,19 +178,19 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedWord = rowsToDisplay[indexPath.row]
-        performSegue(withIdentifier: "toDetailWordVC", sender: nil)
+        performSegue(withIdentifier: Text.toDetailWordVC, sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toDetailWordVC"{
-            let destinationVC = segue.destination as! WordDefinitionVC
+        if segue.identifier == Text.toDetailWordVC{
+            let destinationVC        = segue.destination as! WordDefinitionVC
             destinationVC.comingWord = self.selectedWord
-            destinationVC.isFavWord = checkLastOrFavSegment()
+            destinationVC.isFavWord  = checkLastOrFavSegment()
             
         }
-        if segue.identifier == "toDetailSearchVC"{
-            let destinationVC = segue.destination as! DetailSearchVC
-            destinationVC.lastSearchList = self.rowsToDisplay
+        if segue.identifier == Text.toDetailSearchVC{
+            let destinationVC              = segue.destination as! DetailSearchVC
+            destinationVC.lastSearchList   = self.rowsToDisplay
             destinationVC.favoriteWordList = self.favoriteWordList
         }
     }
@@ -211,7 +210,7 @@ extension SearchPageVC: UITableViewDelegate, UITableViewDataSource {
 extension SearchPageVC: UISearchBarDelegate {
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        performSegue(withIdentifier: "toDetailSearchVC", sender: nil)
+        performSegue(withIdentifier: Text.toDetailSearchVC, sender: nil)
         return true
     }
 }

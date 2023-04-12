@@ -1,18 +1,11 @@
-//
-//  Alert.swift
-//  DsmDictionary
-//
-//  Created by furkan vural on 23.03.2023.
-//
-
 import Foundation
 import UIKit
 
 struct Alert {
     
     private static func showBasicAlert(on vc: UIViewController, with title: String, message: String){
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let button = UIAlertAction(title: "Tamam", style: .default)
+        let alert  = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let button = UIAlertAction(title: Text.okeyButtonTitle, style: .default)
         alert.addAction(button)
         DispatchQueue.main.async {
             vc.present(alert, animated: true)
@@ -20,15 +13,15 @@ struct Alert {
     }
     
     static func showCoreDataError(on vc: UIViewController){
-        showBasicAlert(on: vc, with: "Hata", message: "Beklenmedik bir hata oluştu.")
+        showBasicAlert(on: vc, with: Text.errorTitle, message: Text.errorMessage)
     }
     
     static func showFirebaseSignInError(on vc: UIViewController, message: String){
-        showBasicAlert(on: vc, with: "Hata", message: message)
+        showBasicAlert(on: vc, with: Text.errorTitle, message: message)
     }
     
     static func showFirebaseReadDataError(on vc: UIViewController, message: String){
-        showBasicAlert(on: vc, with: "Hata", message: message)
+        showBasicAlert(on: vc, with: Text.errorTitle, message: message)
     }
     
     static func showBasicAlertMessage(on vc: UIViewController, title: String , message: String){

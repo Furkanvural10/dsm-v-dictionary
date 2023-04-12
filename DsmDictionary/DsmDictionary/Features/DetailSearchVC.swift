@@ -5,11 +5,11 @@ import CoreData
 
 class DetailSearchVC: UIViewController {
     
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var searchResultTableView: UITableView!
-    var searchResult = [String]()
-    var selectedWord: String?
-    var lastSearchList = [String]()
+    @IBOutlet weak var searchBar             : UISearchBar!
+    @IBOutlet weak var searchResultTableView : UITableView!
+    var searchResult     = [String]()
+    var selectedWord     : String?
+    var lastSearchList   = [String]()
     var favoriteWordList = [String]()
 
     override func viewDidLoad() {
@@ -19,18 +19,18 @@ class DetailSearchVC: UIViewController {
     }
     private func configureDetailSearchPageView(){
         //MARK: - TableView
-        self.searchResultTableView.delegate = self
-        self.searchResultTableView.dataSource = self
-        self.searchResultTableView.isMultipleTouchEnabled = false
-        self.searchResultTableView.allowsMultipleSelection = false
+        self.searchResultTableView.delegate                             = self
+        self.searchResultTableView.dataSource                           = self
+        self.searchResultTableView.isMultipleTouchEnabled               = false
+        self.searchResultTableView.allowsMultipleSelection              = false
         self.searchResultTableView.allowsMultipleSelectionDuringEditing = false
-        self.searchResultTableView.separatorEffect = .none
+        self.searchResultTableView.separatorEffect                      = .none
         
         //MARK: - SearchBar
-        self.searchBar.delegate = self
-        self.searchBar.returnKeyType = .search
-        self.searchBar.searchBarStyle = .minimal
-        self.searchBar.placeholder = Text.searchWord
+        self.searchBar.delegate         = self
+        self.searchBar.returnKeyType    = .search
+        self.searchBar.searchBarStyle   = .minimal
+        self.searchBar.placeholder      = Text.searchWord
         
         // Open keyboard
         searchBar.becomeFirstResponder()
@@ -72,10 +72,10 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell()
-        var content = cell.defaultContentConfiguration()
-        content.text = searchResult[indexPath.row]
-        cell.contentConfiguration = content
+        let cell                   = UITableViewCell()
+        var content                = cell.defaultContentConfiguration()
+        content.text               = searchResult[indexPath.row]
+        cell.contentConfiguration  = content
         return cell
     }
     
@@ -83,14 +83,14 @@ extension DetailSearchVC: UITableViewDelegate, UITableViewDataSource {
         
         saveWordCoreData(choosedWord: searchResult[indexPath.row])
         self.selectedWord = searchResult[indexPath.row]
-        performSegue(withIdentifier: "toDetailWordVC", sender: selectedWord)
+        performSegue(withIdentifier: Text.toDetailWordVC, sender: selectedWord)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toDetailWordVC"{
-            let destinationVC = segue.destination as! WordDefinitionVC
+        if segue.identifier == Text.toDetailWordVC {
+            let destinationVC        = segue.destination as! WordDefinitionVC
             destinationVC.comingWord = self.selectedWord
-            destinationVC.isFavWord = checkSelectedWordExistInFavList()
+            destinationVC.isFavWord  = checkSelectedWordExistInFavList()
         }
     }
     

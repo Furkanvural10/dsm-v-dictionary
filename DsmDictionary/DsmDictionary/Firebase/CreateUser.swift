@@ -1,10 +1,3 @@
-//
-//  CreateUser.swift
-//  DsmDictionary
-//
-//  Created by furkan vural on 10.04.2023.
-//
-
 import Foundation
 import FirebaseAuth
 

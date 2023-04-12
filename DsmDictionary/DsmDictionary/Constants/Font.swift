@@ -1,10 +1,3 @@
-//
-//  Font.swift
-//  DsmDictionary
-//
-//  Created by furkan vural on 10.04.2023.
-//
-
 import Foundation
 import UIKit
 
@@ -16,7 +9,8 @@ struct Font {
     }
     
     struct BoldFontSize {
-        static let boldFont14: UIFont = .boldSystemFont(ofSize: 35)
+        static let boldFont35: UIFont = .boldSystemFont(ofSize: 35)
+        static let boldFont30: UIFont = .boldSystemFont(ofSize: 30)
+        static let boldFont20: UIFont = .boldSystemFont(ofSize: 20)
     }
-    
 }

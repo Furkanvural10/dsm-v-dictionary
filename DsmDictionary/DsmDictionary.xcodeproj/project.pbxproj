@@ -12,10 +12,18 @@
 		041576B729E3446200CBA586 /* Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576B629E3446200CBA586 /* Alpha.swift */; };
 		041576B929E3452F00CBA586 /* FirebaseText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576B829E3452F00CBA586 /* FirebaseText.swift */; };
 		041576BE29E34EA200CBA586 /* CoreDataFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576BD29E34EA200CBA586 /* CoreDataFunctions.swift */; };
-		041576C129E3627800CBA586 /* GetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576C029E3627800CBA586 /* GetData.swift */; };
+		041576C129E3627800CBA586 /* GetDailyWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576C029E3627800CBA586 /* GetDailyWord.swift */; };
 		041576C329E3729900CBA586 /* CreateUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576C229E3729900CBA586 /* CreateUser.swift */; };
 		041576C529E4A6CE00CBA586 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576C429E4A6CE00CBA586 /* Font.swift */; };
 		041576C729E4CFA600CBA586 /* SearchWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576C629E4CFA600CBA586 /* SearchWord.swift */; };
+		041576CB29E7146800CBA586 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576CA29E7146800CBA586 /* Extensions.swift */; };
+		041576CD29E7159B00CBA586 /* GetOnboardingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576CC29E7159B00CBA586 /* GetOnboardingInfo.swift */; };
+		041576CF29E7166D00CBA586 /* GetWordDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576CE29E7166D00CBA586 /* GetWordDetail.swift */; };
+		041576D229E7220B00CBA586 /* WordDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576D129E7220B00CBA586 /* WordDetail.swift */; };
+		041576D429E7221E00CBA586 /* FavoriteWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576D329E7221E00CBA586 /* FavoriteWord.swift */; };
+		041576D629E7223100CBA586 /* LastSearchWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576D529E7223100CBA586 /* LastSearchWord.swift */; };
+		041576D829E7224400CBA586 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576D729E7224400CBA586 /* Onboarding.swift */; };
+		041576DA29E73EEF00CBA586 /* DailyWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041576D929E73EEF00CBA586 /* DailyWord.swift */; };
 		047EC40729C654C0009EA1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC40629C654C0009EA1D9 /* AppDelegate.swift */; };
 		047EC40929C654C0009EA1D9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC40829C654C0009EA1D9 /* SceneDelegate.swift */; };
 		047EC40B29C654C0009EA1D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047EC40A29C654C0009EA1D9 /* ViewController.swift */; };
@@ -37,10 +45,18 @@
 		041576B629E3446200CBA586 /* Alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alpha.swift; sourceTree = "<group>"; };
 		041576B829E3452F00CBA586 /* FirebaseText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseText.swift; sourceTree = "<group>"; };
 		041576BD29E34EA200CBA586 /* CoreDataFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFunctions.swift; sourceTree = "<group>"; };
-		041576C029E3627800CBA586 /* GetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetData.swift; sourceTree = "<group>"; };
+		041576C029E3627800CBA586 /* GetDailyWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDailyWord.swift; sourceTree = "<group>"; };
 		041576C229E3729900CBA586 /* CreateUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUser.swift; sourceTree = "<group>"; };
 		041576C429E4A6CE00CBA586 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		041576C629E4CFA600CBA586 /* SearchWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWord.swift; sourceTree = "<group>"; };
+		041576CA29E7146800CBA586 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		041576CC29E7159B00CBA586 /* GetOnboardingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetOnboardingInfo.swift; sourceTree = "<group>"; };
+		041576CE29E7166D00CBA586 /* GetWordDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWordDetail.swift; sourceTree = "<group>"; };
+		041576D129E7220B00CBA586 /* WordDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDetail.swift; sourceTree = "<group>"; };
+		041576D329E7221E00CBA586 /* FavoriteWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteWord.swift; sourceTree = "<group>"; };
+		041576D529E7223100CBA586 /* LastSearchWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastSearchWord.swift; sourceTree = "<group>"; };
+		041576D729E7224400CBA586 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
+		041576D929E73EEF00CBA586 /* DailyWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWord.swift; sourceTree = "<group>"; };
 		047EC40329C654C0009EA1D9 /* DsmDictionary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DsmDictionary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047EC40629C654C0009EA1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		047EC40829C654C0009EA1D9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,11 +130,41 @@
 		041576BF29E3626000CBA586 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				041576C029E3627800CBA586 /* GetData.swift */,
+				041576C029E3627800CBA586 /* GetDailyWord.swift */,
 				041576C229E3729900CBA586 /* CreateUser.swift */,
 				041576C629E4CFA600CBA586 /* SearchWord.swift */,
+				041576CC29E7159B00CBA586 /* GetOnboardingInfo.swift */,
+				041576CE29E7166D00CBA586 /* GetWordDetail.swift */,
 			);
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		041576C829E7089D00CBA586 /* Asset */ = {
+			isa = PBXGroup;
+			children = (
+				047EC40F29C654C1009EA1D9 /* Assets.xcassets */,
+			);
+			path = Asset;
+			sourceTree = "<group>";
+		};
+		041576C929E7145A00CBA586 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				041576CA29E7146800CBA586 /* Extensions.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		041576D029E721F400CBA586 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				041576D129E7220B00CBA586 /* WordDetail.swift */,
+				041576D329E7221E00CBA586 /* FavoriteWord.swift */,
+				041576D529E7223100CBA586 /* LastSearchWord.swift */,
+				041576D729E7224400CBA586 /* Onboarding.swift */,
+				041576D929E73EEF00CBA586 /* DailyWord.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		047EC3FA29C654C0009EA1D9 = {
@@ -142,6 +188,9 @@
 		047EC40529C654C0009EA1D9 /* DsmDictionary */ = {
 			isa = PBXGroup;
 			children = (
+				041576D029E721F400CBA586 /* Models */,
+				041576C929E7145A00CBA586 /* Extension */,
+				041576C829E7089D00CBA586 /* Asset */,
 				041576BF29E3626000CBA586 /* Firebase */,
 				041576BC29E34DC300CBA586 /* CoreData */,
 				041576BB29E34D8200CBA586 /* CustomUI */,
@@ -150,7 +199,6 @@
 				047EC40629C654C0009EA1D9 /* AppDelegate.swift */,
 				047EC40829C654C0009EA1D9 /* SceneDelegate.swift */,
 				047EC40C29C654C0009EA1D9 /* Main.storyboard */,
-				047EC40F29C654C1009EA1D9 /* Assets.xcassets */,
 				047EC41129C654C1009EA1D9 /* LaunchScreen.storyboard */,
 				047EC41429C654C1009EA1D9 /* Info.plist */,
 				047EC44629CDDDB8009EA1D9 /* GoogleService-Info.plist */,
@@ -292,23 +340,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				041576D229E7220B00CBA586 /* WordDetail.swift in Sources */,
 				047EC41D29CBA488009EA1D9 /* DetailSearchVC.swift in Sources */,
+				041576CB29E7146800CBA586 /* Extensions.swift in Sources */,
 				047EC40B29C654C0009EA1D9 /* ViewController.swift in Sources */,
 				047EC41B29C9D9FF009EA1D9 /* SearchPageVC.swift in Sources */,
 				047EC44329CC7B95009EA1D9 /* Dictionary.xcdatamodeld in Sources */,
+				041576D829E7224400CBA586 /* Onboarding.swift in Sources */,
 				041576B329E342B600CBA586 /* Text.swift in Sources */,
 				047EC40729C654C0009EA1D9 /* AppDelegate.swift in Sources */,
 				047EC40929C654C0009EA1D9 /* SceneDelegate.swift in Sources */,
 				041576B529E3431C00CBA586 /* Images.swift in Sources */,
+				041576CD29E7159B00CBA586 /* GetOnboardingInfo.swift in Sources */,
 				041576BE29E34EA200CBA586 /* CoreDataFunctions.swift in Sources */,
 				047EC44529CCD582009EA1D9 /* Alert.swift in Sources */,
 				041576B729E3446200CBA586 /* Alpha.swift in Sources */,
+				041576CF29E7166D00CBA586 /* GetWordDetail.swift in Sources */,
 				0494C2CF29D33746000D71A7 /* WordDefinitionVC.swift in Sources */,
+				041576DA29E73EEF00CBA586 /* DailyWord.swift in Sources */,
 				041576C529E4A6CE00CBA586 /* Font.swift in Sources */,
-				041576C129E3627800CBA586 /* GetData.swift in Sources */,
+				041576C129E3627800CBA586 /* GetDailyWord.swift in Sources */,
 				041576C329E3729900CBA586 /* CreateUser.swift in Sources */,
+				041576D629E7223100CBA586 /* LastSearchWord.swift in Sources */,
 				041576B929E3452F00CBA586 /* FirebaseText.swift in Sources */,
 				041576C729E4CFA600CBA586 /* SearchWord.swift in Sources */,
+				041576D429E7221E00CBA586 /* FavoriteWord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
