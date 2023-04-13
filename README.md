@@ -1,13 +1,15 @@
+# DsmDictionary
 
-## Contributing
+This project is a mobile application that allows users to identify and explore various psychopathological disorders based on the criteria outlined in the DSM-V.
 
-We welcome contributions to DsmDictionary from anyone interested in improving the project. Whether it's a bug report, a feature request, or a code contribution, we appreciate all input that can help make this project better.
+Users can browse a list of disorders, view their symptoms, and even save their favorites for future reference. Additionally, the app provides information on comorbidities between different disorders, helping users gain a more comprehensive understanding of mental health. This project is designed for individuals who are interested in learning more about psychopathology and want a convenient, accessible way to explore and understand various mental health conditions.
 
 ## Features
 
 - Search psychopathological disorders in the DSM-V
 - Save your word to favorite list
 - Learn information on comorbidities between different disorders
+
 
 ## Screenshots
 
@@ -16,10 +18,9 @@ We welcome contributions to DsmDictionary from anyone interested in improving th
 ![Simulator Screen Shot - iPhone 11 - 2023-04-13 at 14 43-1](https://user-images.githubusercontent.com/62665073/231824596-6fc0a936-b5bd-45dc-9422-5ba102736fb2.png)
 ![Simulator Screen Shot - iPhone 11 - 2023-04-13 at 14 43](https://user-images.githubusercontent.com/62665073/231824614-e6d93133-568b-4c00-8123-b416d0b7807e.png)
 
+## Contributing to DsmDictionary
 
-
-
-
+We welcome contributions to DsmDictionary from anyone interested in improving the project. Whether it's a bug report, a feature request, or a code contribution, we appreciate all input that can help make this project better.
 
 ### Getting Started
 
