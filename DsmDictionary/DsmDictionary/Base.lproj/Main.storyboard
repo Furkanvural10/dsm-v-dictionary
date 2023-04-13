@@ -75,7 +75,9 @@
                             <constraint firstItem="vVD-KU-dqn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zja-OV-Vus"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="pxe-bK-ngt"/>
+                    <navigationItem key="navigationItem" id="pxe-bK-ngt">
+                        <barButtonItem key="backBarButtonItem" title="Geri" id="Ns0-Yw-k2R"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="firstDefinitionLabel" destination="k08-1c-lcX" id="J5M-cO-EJC"/>
                         <outlet property="getStartedButton" destination="pHA-Xe-VjB" id="epc-h1-qmg"/>
@@ -217,7 +219,9 @@
                             <constraint firstItem="OsB-Y3-Hyd" firstAttribute="trailing" secondItem="hYO-Zd-IXt" secondAttribute="trailing" id="u33-Ln-RFg"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Ynt-Mm-qjB"/>
+                    <navigationItem key="navigationItem" id="Ynt-Mm-qjB">
+                        <barButtonItem key="backBarButtonItem" title="Geri" id="n8P-39-du0"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="OsB-Y3-Hyd" id="ZhM-eG-es7"/>
                         <outlet property="searchResultTableView" destination="f7L-X6-h59" id="fip-pH-DMH"/>
