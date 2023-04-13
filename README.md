@@ -36,7 +36,7 @@ To contribute to DsmDictionary, please follow these steps:
 
 3 - Create a new branch for your changes. 
 ```bash
-  git clone https://github.com/Furkanvural10/dsm-v-dictionary.git
+  git checkout -b your-branch-name
 ```
 4 -Make your changes and commit them with a clear and concise message.
 ```bash
